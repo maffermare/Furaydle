@@ -96,7 +96,7 @@ let correctWord = correctWordObj.word.toUpperCase();
 const maxAttempts = 6;
 let attempts = 0;
 
-// Helper Functions
+// Functions
 function getRandomWord() {
     return wordList[Math.floor(Math.random() * wordList.length)];
 }
@@ -108,12 +108,12 @@ function startNewGame() {
 }
 
 function resetGame() {
-    guessGrid.innerHTML = "";
-    attempts = 0;
-    wordInput.value = "";
-    wordInput.maxLength = correctWord.length;
-    hintDisplay.textContent = `Clue: ${correctWordObj.hint}`;
-    alert(caveat);
+    guessGrid.innerHTML = ""; // Clear previous guesses
+    attempts = 0; // Reset attempts
+    wordInput.value = ""; // Clear input
+    wordInput.maxLength = correctWord.length; // Match input length
+    hintDisplay.textContent = `Clue: ${correctWordObj.hint}`; // Update the hint
+    alert(caveat); // Display the caveat
 }
 
 function checkWord() {
@@ -124,7 +124,7 @@ function checkWord() {
     }
 
     attempts++;
-    wordInput.value = "";
+    wordInput.value = ""; // Clear input
 
     const guessRow = document.createElement("div");
     guessRow.classList.add("guess-row");
