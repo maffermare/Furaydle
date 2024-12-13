@@ -91,7 +91,7 @@ const wordList = [
 ];
 
 // Game Variables
-let correctWordObj = getRandomWord(); // Pick the first random word
+let correctWordObj = getRandomWord(); // Select the first word
 let correctWord = correctWordObj.word.toUpperCase();
 const maxAttempts = 6;
 let attempts = 0;
@@ -113,13 +113,8 @@ function resetGame() {
     guessGrid.innerHTML = ""; // Clear guesses
     attempts = 0; // Reset attempts
     wordInput.value = ""; // Clear input
-    wordInput.maxLength = correctWord.length; // Match input length
-    hintDisplay.textContent = `Clue: ${correctWordObj.hint}`; // Update the hint
-}
-
-// Function to initialize the game (for the first game only)
-function initializeGame() {
-    hintDisplay.textContent = `Clue: ${correctWordObj.hint}`;
+    wordInput.maxLength = correctWord.length; // Adjust input length
+    hintDisplay.textContent = `Clue: ${correctWordObj.hint}`; // Update the clue
 }
 
 // Function to check the guessed word
@@ -131,7 +126,7 @@ function checkWord() {
     }
 
     attempts++;
-    wordInput.value = "";
+    wordInput.value = ""; // Clear input
 
     const guessRow = document.createElement("div");
     guessRow.classList.add("guess-row");
@@ -173,12 +168,12 @@ function checkWord() {
     }
 }
 
+// Update the clue for the first game
+hintDisplay.textContent = `Clue: ${correctWordObj.hint}`;
+
 // Event listener for the Enter key
 wordInput.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
         checkWord();
     }
 });
-
-// Initialize the game on page load
-initializeGame();
