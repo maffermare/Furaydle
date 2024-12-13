@@ -41,7 +41,6 @@ const wordList = [
     // Furay Pets
     { word: "scout", hint: "Furay Pets" },
     { word: "boozy", hint: "Furay Pets" },
-    { word: "Darcy", hint: "Furay Pets" },
     { word: "Fitzy", hint: "Furay Pets" },
     { word: "Rohan", hint: "Furay Pets" },
     { word: "LCDBC", hint: "Furay Pets" },
@@ -142,7 +141,7 @@ function checkWord() {
         }
     }
 
-    for (let i = 0; i < correctWord.length; i++) {
+    for (let i = 0; i < guessedWord.length; i++) {
         if (guessedWordArr[i] && correctWordArr.includes(guessedWordArr[i])) {
             feedback[i] = "present";
             correctWordArr[correctWordArr.indexOf(guessedWordArr[i])] = null;
@@ -167,7 +166,6 @@ function checkWord() {
     }
 }
 
-// Event Listener for Enter Key
 wordInput.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
         checkWord();
