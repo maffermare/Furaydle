@@ -91,31 +91,38 @@ const wordList = [
 ];
 
 // Game Variables
-let correctWordObj = getRandomWord();
+let correctWordObj = getRandomWord(); // Pick the first random word
 let correctWord = correctWordObj.word.toUpperCase();
 const maxAttempts = 6;
 let attempts = 0;
 
-// Functions
+// Function to get a random word object
 function getRandomWord() {
     return wordList[Math.floor(Math.random() * wordList.length)];
 }
 
+// Function to start a new game
 function startNewGame() {
     correctWordObj = getRandomWord();
     correctWord = correctWordObj.word.toUpperCase();
     resetGame();
 }
 
+// Function to reset the game
 function resetGame() {
-    guessGrid.innerHTML = ""; // Clear previous guesses
+    guessGrid.innerHTML = ""; // Clear guesses
     attempts = 0; // Reset attempts
     wordInput.value = ""; // Clear input
     wordInput.maxLength = correctWord.length; // Match input length
     hintDisplay.textContent = `Clue: ${correctWordObj.hint}`; // Update the hint
-    alert(caveat); // Display the caveat
 }
 
+// Function to initialize the game (for the first game only)
+function initializeGame() {
+    hintDisplay.textContent = `Clue: ${correctWordObj.hint}`;
+}
+
+// Function to check the guessed word
 function checkWord() {
     const guessedWord = wordInput.value.toUpperCase().trim();
     if (guessedWord.length !== correctWord.length) {
@@ -124,7 +131,7 @@ function checkWord() {
     }
 
     attempts++;
-    wordInput.value = ""; // Clear input
+    wordInput.value = "";
 
     const guessRow = document.createElement("div");
     guessRow.classList.add("guess-row");
@@ -166,8 +173,12 @@ function checkWord() {
     }
 }
 
+// Event listener for the Enter key
 wordInput.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
         checkWord();
     }
 });
+
+// Initialize the game on page load
+initializeGame();
