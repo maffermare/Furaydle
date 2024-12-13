@@ -5,10 +5,10 @@ const guessGrid = document.getElementById("guess-grid");
 // Game Variables
 const wordList = [
     "furay", "clare", "alice", "scout", "boosy", "conal", "sally", "mabel",
-    "julia", "CDell", "suzie", "GuyVF", "JMPPF", "Fitzy", "chick", "SBFSB",
+    "julia", "CDell", "suzie", "GuyVF", "JMPPF", "Fitzy", "FabFF", "SBFSB",
     "Jolly", "Wbstr", "Margy", "Steve", "Haley", "Kevin", "Rohan", "bundt",
     "MyraR", "HHFCD", "Catie", "ppcrn", "prtld", "HolyR", "Omaha", "AnnFP",
-    "AZNPC", "PCRTK", "ETATP", "SMSBD", "LCDBC", "MissK", "NYEGE", "goals", "SCCCR"
+    "AZZNP", "PCRTK", "ETATB", "SMSBD", "LCDBC", "MissK", "NYEGE", "goals", "SCCCR", "DUTCH", "mouse", "mggie", "vicky"
 ];
 let correctWord = getRandomWord(); // Initialize correct word
 const maxAttempts = 6;
