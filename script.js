@@ -1,3 +1,54 @@
+// DOM Elements
+const wordInput = document.getElementById("word-input");
+const guessGrid = document.getElementById("guess-grid");
+const hintDisplay = document.getElementById("hint-display");
+
+// Caveat
+const caveat = "Please note that some words are abbreviated. Some are acronyms. Some are group names.";
+
+// Full Word List with Variable Lengths (Family Only for Now)
+const wordList = [
+    { word: "Mary", hint: "Family" },    // 4 letters
+    { word: "furay", hint: "Family" },   // 5 letters
+    { word: "clare", hint: "Family" },
+    { word: "alice", hint: "Family" },
+    { word: "sally", hint: "Family" },
+    { word: "Marion", hint: "Family" },  // 6 letters
+    { word: "Carrie", hint: "Family" },
+    { word: "Albert", hint: "Family" }
+];
+
+// Game Variables
+let correctWordObj = getRandomWord(); // Pick the first random word
+let correctWord = correctWordObj.word.toUpperCase();
+const maxAttempts = 6;
+let attempts = 0;
+
+// Function to get a random word object
+function getRandomWord() {
+    // Filter by "Family" category and randomly pick one
+    const familyWords = wordList.filter((entry) => entry.hint === "Family");
+    return familyWords[Math.floor(Math.random() * familyWords.length)];
+}
+
+// Function to start a new game
+function startNewGame() {
+    correctWordObj = getRandomWord(); // Pick a new word
+    correctWord = correctWordObj.word.toUpperCase(); // Convert it to uppercase
+    resetGame();
+}
+
+// Function to reset the game
+function resetGame() {
+    guessGrid.innerHTML = ""; // Clear previous guesses
+    attempts = 0; // Reset attempts
+    wordInput.value = ""; // Clear input field
+    wordInput.maxLength = correctWord.length; // Match input length to word length
+    wordInput.placeholder = `Enter ${correctWord.length} letters`; // Dynamic placeholder
+    hintDisplay.textContent = `Clue: ${correctWordObj.hint}`; // Update the hint
+}
+
+// Function to check the guessed word
 function checkWord() {
     const guessedWord = wordInput.value.toUpperCase().trim(); // Get user input
     if (guessedWord.length !== correctWord.length) {
@@ -52,3 +103,14 @@ function checkWord() {
         startNewGame();
     }
 }
+
+// Update the clue for the first game
+hintDisplay.textContent = `Clue: ${correctWordObj.hint}`;
+wordInput.placeholder = `Enter ${correctWord.length} letters`; // Dynamic placeholder for the first game
+
+// Add event listener for the Enter key
+wordInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        checkWord();
+    }
+});
