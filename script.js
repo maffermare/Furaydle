@@ -19,9 +19,9 @@ const wordList = [
 ];
 
 // Game Variables
-let correctWordObj = getRandomWord(); // Pick the first random word
-let correctWord = correctWordObj.word.toUpperCase();
-const maxAttempts = 6;
+let correctWordObj; // The current puzzle word and hint
+let correctWord; // The word (uppercase)
+let maxAttempts = 6;
 let attempts = 0;
 
 // Function to get a random word object
@@ -34,7 +34,7 @@ function getRandomWord() {
 // Function to start a new game
 function startNewGame() {
     correctWordObj = getRandomWord(); // Pick a new word
-    correctWord = correctWordObj.word.toUpperCase(); // Convert it to uppercase
+    correctWord = correctWordObj.word.toUpperCase(); // Convert to uppercase
     resetGame();
 }
 
@@ -45,7 +45,8 @@ function resetGame() {
     wordInput.value = ""; // Clear input field
     wordInput.maxLength = correctWord.length; // Match input length to word length
     wordInput.placeholder = `Enter ${correctWord.length} letters`; // Dynamic placeholder
-    hintDisplay.textContent = `Clue: ${correctWordObj.hint}`; // Update the hint
+    hintDisplay.textContent = `Clue: ${correctWordObj.hint}`; // Update the clue
+    alert(caveat); // Show the caveat
 }
 
 // Function to check the guessed word
@@ -104,9 +105,14 @@ function checkWord() {
     }
 }
 
-// Update the clue for the first game
-hintDisplay.textContent = `Clue: ${correctWordObj.hint}`;
-wordInput.placeholder = `Enter ${correctWord.length} letters`; // Dynamic placeholder for the first game
+// Initialize the game on page load
+function initializeGame() {
+    correctWordObj = getRandomWord(); // Pick the first word
+    correctWord = correctWordObj.word.toUpperCase(); // Convert to uppercase
+    wordInput.maxLength = correctWord.length; // Match input length to word length
+    wordInput.placeholder = `Enter ${correctWord.length} letters`; // Dynamic placeholder
+    hintDisplay.textContent = `Clue: ${correctWordObj.hint}`; // Set the initial clue
+}
 
 // Add event listener for the Enter key
 wordInput.addEventListener("keydown", (event) => {
@@ -114,3 +120,6 @@ wordInput.addEventListener("keydown", (event) => {
         checkWord();
     }
 });
+
+// Run the game on page load
+initializeGame();
