@@ -43,7 +43,7 @@ function resetGame() {
     guessGrid.innerHTML = ""; // Clear previous guesses
     attempts = 0; // Reset attempts
     wordInput.value = ""; // Clear input field
-    wordInput.maxLength = correctWord.length; // Match input length to word length
+    wordInput.maxLength = correctWord.length; // Dynamically set maxlength
     wordInput.placeholder = `Enter ${correctWord.length} letters`; // Dynamic placeholder
     hintDisplay.textContent = `Clue: ${correctWordObj.hint}`; // Update the clue
     alert(caveat); // Show the caveat
@@ -109,7 +109,7 @@ function checkWord() {
 function initializeGame() {
     correctWordObj = getRandomWord(); // Pick the first word
     correctWord = correctWordObj.word.toUpperCase(); // Convert to uppercase
-    wordInput.maxLength = correctWord.length; // Match input length to word length
+    wordInput.maxLength = correctWord.length; // Dynamically set maxlength
     wordInput.placeholder = `Enter ${correctWord.length} letters`; // Dynamic placeholder
     hintDisplay.textContent = `Clue: ${correctWordObj.hint}`; // Set the initial clue
 }
