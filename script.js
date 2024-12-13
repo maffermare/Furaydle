@@ -10,9 +10,14 @@ const wordList = [
     "MyraR", "HHFCD", "Catie", "ppcrn", "prtld", "HolyR", "Omaha", "AnnFP",
     "AZNPC", "PCRTK", "ETATP", "SMSBD", "LCDBC", "MissK", "NYEGE", "goals", "SCCCR"
 ];
-const correctWord = wordList[Math.floor(Math.random() * wordList.length)].toUpperCase(); // Random word
+let correctWord = getRandomWord(); // Initialize correct word
 const maxAttempts = 6;
 let attempts = 0;
+
+// Function to get a random word from the list
+function getRandomWord() {
+    return wordList[Math.floor(Math.random() * wordList.length)].toUpperCase();
+}
 
 // Function to check the guessed word
 function checkWord() {
@@ -30,20 +35,33 @@ function checkWord() {
     const guessRow = document.createElement("div");
     guessRow.classList.add("guess-row");
 
-    // Compare each letter in guessedWord with correctWord
+    // Track which letters have been checked
+    const correctWordArr = correctWord.split("");
+    const guessedWordArr = guessedWord.split("");
+    const feedback = new Array(5).fill("absent");
+
+    // Check for correct letters in the correct positions (green)
+    for (let i = 0; i < 5; i++) {
+        if (guessedWordArr[i] === correctWordArr[i]) {
+            feedback[i] = "correct"; // Mark as correct
+            correctWordArr[i] = null; // Prevent double-checking
+            guessedWordArr[i] = null; // Mark this letter as resolved
+        }
+    }
+
+    // Check for correct letters in the wrong positions (yellow)
+    for (let i = 0; i < 5; i++) {
+        if (guessedWordArr[i] && correctWordArr.includes(guessedWordArr[i])) {
+            feedback[i] = "present"; // Mark as present
+            correctWordArr[correctWordArr.indexOf(guessedWordArr[i])] = null; // Mark letter as used
+        }
+    }
+
+    // Create letter boxes with appropriate feedback
     for (let i = 0; i < guessedWord.length; i++) {
         const letterBox = document.createElement("div");
         letterBox.textContent = guessedWord[i];
-
-        // Highlight the letter based on match
-        if (guessedWord[i] === correctWord[i]) {
-            letterBox.classList.add("correct"); // Correct position
-        } else if (correctWord.includes(guessedWord[i])) {
-            letterBox.classList.add("present"); // Correct letter, wrong position
-        } else {
-            letterBox.classList.add("absent"); // Incorrect letter
-        }
-
+        letterBox.classList.add(feedback[i]); // Apply feedback class
         guessRow.appendChild(letterBox);
     }
 
@@ -64,7 +82,7 @@ function checkWord() {
 function resetGame() {
     guessGrid.innerHTML = ""; // Clear the grid
     attempts = 0; // Reset attempts
-    wordInput.value = ""; // Clear input
+    correctWord = getRandomWord(); // Select a new word
     alert("Game reset! A new word has been chosen!");
 }
 
