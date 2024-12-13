@@ -41,6 +41,7 @@ const wordList = [
     // Furay Pets
     { word: "scout", hint: "Furay Pets" },
     { word: "boozy", hint: "Furay Pets" },
+    { word: "Darcy", hint: "Furay Pets" },
     { word: "Fitzy", hint: "Furay Pets" },
     { word: "Rohan", hint: "Furay Pets" },
     { word: "LCDBC", hint: "Furay Pets" },
