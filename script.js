@@ -1,94 +1,37 @@
 // DOM Elements
 const wordInput = document.getElementById("word-input");
 const guessGrid = document.getElementById("guess-grid");
+const hintDisplay = document.getElementById("hint-display"); // New hint element
+
+// Caveat (displayed at the start or in instructions)
+const caveat = "Please note that some words are abbreviated. Some are acronyms. Some are group names.";
 
 // Game Variables
 const wordList = [
-    "furay", "clare", "alice", "scout", "boosy", "conal", "sally", "mabel",
-    "julia", "CDell", "suzie", "GuyVF", "JMPPF", "Fitzy", "FabFF", "SBFSB",
-    "Jolly", "Wbstr", "Margy", "Steve", "Haley", "Kevin", "Rohan", "bundt",
-    "MyraR", "HHFCD", "Catie", "ppcrn", "prtld", "HolyR", "Omaha", "AnnFP",
-    "AZZNP", "PCRTK", "ETATB", "SMSBD", "LCDBC", "MissK", "NYEGE", "goals", "SCCCR", "DUTCH", "mouse", "mggie", "vicky"
+    { word: "furay", hint: "Family" },
+    { word: "clare", hint: "Family" },
+    { word: "alice", hint: "Family" },
+    { word: "scout", hint: "Furay Pets" },
+    { word: "boozy", hint: "Furay Pets" },
+    { word: "SBFSB", hint: "Furay Movies and Music" },
+    { word: "Wbstr", hint: "Furay Locations and Places" },
+    { word: "DUTCH", hint: "We can’t explain how much we love this" },
+    { word: "Teach", hint: "Furay Occupations" },
+    // Add all categorized words here with their respective hints
 ];
-let correctWord = getRandomWord(); // Initialize correct word
+
+// Helper Functions
+let correctWordObj = getRandomWord(); // Initialize correct word and hint
+let correctWord = correctWordObj.word.toUpperCase(); // Extract the word
 const maxAttempts = 6;
 let attempts = 0;
 
-// Function to get a random word from the list
+// Function to get a random word object (word + hint)
 function getRandomWord() {
-    return wordList[Math.floor(Math.random() * wordList.length)].toUpperCase();
+    return wordList[Math.floor(Math.random() * wordList.length)];
 }
 
-// Function to check the guessed word
-function checkWord() {
-    const guessedWord = wordInput.value.toUpperCase(); // Get user input
-    if (guessedWord.length !== 5) {
-        alert("Please enter a 5-letter word!");
-        return;
-    }
-
-    // Increment attempts and clear input
-    attempts++;
-    wordInput.value = "";
-
-    // Create a row to display the guessed word
-    const guessRow = document.createElement("div");
-    guessRow.classList.add("guess-row");
-
-    // Track which letters have been checked
-    const correctWordArr = correctWord.split("");
-    const guessedWordArr = guessedWord.split("");
-    const feedback = new Array(5).fill("absent");
-
-    // Check for correct letters in the correct positions (green)
-    for (let i = 0; i < 5; i++) {
-        if (guessedWordArr[i] === correctWordArr[i]) {
-            feedback[i] = "correct"; // Mark as correct
-            correctWordArr[i] = null; // Prevent double-checking
-            guessedWordArr[i] = null; // Mark this letter as resolved
-        }
-    }
-
-    // Check for correct letters in the wrong positions (yellow)
-    for (let i = 0; i < 5; i++) {
-        if (guessedWordArr[i] && correctWordArr.includes(guessedWordArr[i])) {
-            feedback[i] = "present"; // Mark as present
-            correctWordArr[correctWordArr.indexOf(guessedWordArr[i])] = null; // Mark letter as used
-        }
-    }
-
-    // Create letter boxes with appropriate feedback
-    for (let i = 0; i < guessedWord.length; i++) {
-        const letterBox = document.createElement("div");
-        letterBox.textContent = guessedWord[i];
-        letterBox.classList.add(feedback[i]); // Apply feedback class
-        guessRow.appendChild(letterBox);
-    }
-
-    // Append the guess row to the grid
-    guessGrid.appendChild(guessRow);
-
-    // Check for win or loss
-    if (guessedWord === correctWord) {
-        alert("Congratulations! You guessed the word!");
-        resetGame();
-    } else if (attempts >= maxAttempts) {
-        alert(`Game over! The correct word was ${correctWord}.`);
-        resetGame();
-    }
-}
-
-// Function to reset the game
-function resetGame() {
-    guessGrid.innerHTML = ""; // Clear the grid
-    attempts = 0; // Reset attempts
-    correctWord = getRandomWord(); // Select a new word
-    alert("Game reset! A new word has been chosen!");
-}
-
-// Optional: Add event listener for Enter key press
-wordInput.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-        checkWord();
-    }
-});
+// Function to start a new game
+function startNewGame() {
+    correctWordObj = getRandomWord(); // Get a new word and hint
+  
