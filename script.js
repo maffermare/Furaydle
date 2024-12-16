@@ -46,7 +46,6 @@ function renderGuesses() {
         row.className = "guess-row";
 
         const targetWordArray = [...targetWord];
-
         const guessFeedback = guess.split("").map((char, i) => {
             if (char === targetWord[i]) {
                 targetWordArray[i] = null;
