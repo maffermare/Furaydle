@@ -1,6 +1,7 @@
 const guessGrid = document.getElementById("guess-grid");
 const hintDisplay = document.getElementById("hint-display");
 const wordInput = document.getElementById("word-input");
+const guessButton = document.querySelector("button"); // Button to trigger guesses
 
 // Full Word List with Categories and Hints
 const wordList = [
@@ -191,6 +192,7 @@ function checkWord() {
     const guessedWordArr = guessedWord.split("");
     const feedback = new Array(correctWord.length).fill("absent");
 
+    // Check for correct letters in correct positions (green)
     for (let i = 0; i < correctWord.length; i++) {
         if (guessedWordArr[i] === correctWordArr[i]) {
             feedback[i] = "correct";
@@ -199,6 +201,7 @@ function checkWord() {
         }
     }
 
+    // Check for correct letters in wrong positions (yellow)
     for (let i = 0; i < correctWord.length; i++) {
         if (guessedWordArr[i] && correctWordArr.includes(guessedWordArr[i])) {
             feedback[i] = "present";
@@ -206,6 +209,7 @@ function checkWord() {
         }
     }
 
+    // Display the guessed word with feedback
     for (let i = 0; i < guessedWord.length; i++) {
         const letterBox = document.createElement("div");
         letterBox.textContent = guessedWord[i];
@@ -215,6 +219,7 @@ function checkWord() {
 
     guessGrid.appendChild(guessRow);
 
+    // Win or Lose Check
     if (guessedWord === correctWord) {
         alert("Congratulations! You guessed the word!");
         initializeGame();
@@ -223,6 +228,17 @@ function checkWord() {
         initializeGame();
     }
 }
+
+// Event Listeners
+wordInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        checkWord();
+    }
+});
+
+guessButton.addEventListener("click", () => {
+    checkWord();
+});
 
 // Start the Game
 initializeGame();
