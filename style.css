@@ -1,4 +1,4 @@
-/* Make the game centered */
+/* Center the entire game on the page */
 body {
     display: flex;
     justify-content: center;
@@ -9,7 +9,7 @@ body {
     font-family: Arial, sans-serif;
 }
 
-/* Container styling */
+/* Main game container */
 .game-container {
     width: 100%;
     max-width: 600px;
@@ -64,7 +64,7 @@ button:hover {
     margin-top: 20px;
 }
 
-/* Styling for guess rows and boxes */
+/* Guess rows and letter boxes */
 .guess-row {
     display: flex;
     justify-content: center;
@@ -85,7 +85,7 @@ button:hover {
     text-transform: uppercase;
 }
 
-/* Correct, present, and absent colors */
+/* Feedback colors */
 .letter-box.correct {
     background-color: #6aaa64; /* Green for correct letters */
     color: white;
@@ -100,4 +100,3 @@ button:hover {
     background-color: #787c7e; /* Gray for absent letters */
     color: white;
 }
-
