@@ -42,7 +42,6 @@ const wordList = [
     { word: "Bill", hint: "Family" },
     { word: "Betsy", hint: "Family" },
     { word: "John", hint: "Family" },
-    { word: "DanL", hint: "Family" },
     { word: "Monnie", hint: "Family" },
     { word: "Mike", hint: "Family" },
     { word: "Jack", hint: "Family" },
