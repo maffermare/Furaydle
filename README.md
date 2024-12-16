@@ -1,26 +1,24 @@
-# Furay-dle
+# Wordle-like Game with Hints
 
-A Wordle-like game where you guess a word based on categories of Furay family interests, pets, lore, movies, and more!
+This project is a Wordle-like game implemented in HTML, CSS, and JavaScript. It features:
 
-## Features
-- Green for correct letters in the correct positions.
-- Yellow for correct letters in incorrect positions.
-- Six attempts to guess the word.
-- Dynamic input and instructions based on the word length.
-- Randomized words from six categories.
+- Randomized words with hints from different categories.
+- Support for words of varying lengths (4 to 7 letters).
+- Visual feedback for correct, present, and absent letters.
+- Six attempts per puzzle.
 
-## Categories
-1. **Family**
-2. **Furay Pets and Furay lore**
-3. **Furay movies, books, and music**
-4. **Furay locations and places**
-5. **We can’t explain how much we love this**
-6. **Furay occupations, past and present**
+## Setup Instructions
 
-**Caveat**: Some words may be acronyms, abbreviations, or group names.
+1. Clone this repository or copy the files to your project directory.
+2. Open `index.html` in any browser to start the game.
 
 ## How to Play
-1. Open `index.html` in your browser.
-2. Enter a word in the input field and click "Submit".
-3. Use the color feedback to refine your guesses.
-4. Guess the word within six attempts!
+
+1. Read the hint displayed at the top of the game.
+2. Enter a word that matches the required length.
+3. Use the feedback (green, yellow, and gray) to refine your guesses.
+4. You have six attempts to guess the correct word.
+
+## Customization
+
+You can add more words and hints by updating the `wordList` array in `script.js`.
