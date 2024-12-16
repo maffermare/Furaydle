@@ -40,22 +40,41 @@ document.getElementById("guess-form").addEventListener("submit", (e) => {
 function renderGuesses() {
     const container = document.getElementById("guesses-container");
     container.innerHTML = "";
+
     guesses.forEach((guess) => {
         const row = document.createElement("div");
         row.className = "guess-row";
-        [...guess].forEach((char, i) => {
-            const box = document.createElement("div");
-            box.className = "letter-box";
+
+        // Create a mutable array of the target word's letters
+        const targetWordArray = [...targetWord];
+
+        // Track green letters first
+        const guessFeedback = guess.split("").map((char, i) => {
             if (char === targetWord[i]) {
-                box.classList.add("correct");
-            } else if (targetWord.includes(char)) {
-                box.classList.add("present");
-            } else {
-                box.classList.add("absent");
+                targetWordArray[i] = null; // Remove matched letter
+                return "correct";
             }
+            return null;
+        });
+
+        // Handle yellow letters
+        guess.split("").forEach((char, i) => {
+            if (!guessFeedback[i] && targetWordArray.includes(char)) {
+                guessFeedback[i] = "present";
+                targetWordArray[targetWordArray.indexOf(char)] = null; // Remove matched letter
+            } else if (!guessFeedback[i]) {
+                guessFeedback[i] = "absent";
+            }
+        });
+
+        // Render the guess feedback
+        guess.split("").forEach((char, i) => {
+            const box = document.createElement("div");
+            box.className = `letter-box ${guessFeedback[i]}`;
             box.textContent = char;
             row.appendChild(box);
         });
+
         container.appendChild(row);
     });
 }
