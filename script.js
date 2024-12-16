@@ -45,29 +45,25 @@ function renderGuesses() {
         const row = document.createElement("div");
         row.className = "guess-row";
 
-        // Create a mutable array of the target word's letters
         const targetWordArray = [...targetWord];
 
-        // Track green letters first
         const guessFeedback = guess.split("").map((char, i) => {
             if (char === targetWord[i]) {
-                targetWordArray[i] = null; // Remove matched letter
+                targetWordArray[i] = null;
                 return "correct";
             }
             return null;
         });
 
-        // Handle yellow letters
         guess.split("").forEach((char, i) => {
             if (!guessFeedback[i] && targetWordArray.includes(char)) {
                 guessFeedback[i] = "present";
-                targetWordArray[targetWordArray.indexOf(char)] = null; // Remove matched letter
+                targetWordArray[targetWordArray.indexOf(char)] = null;
             } else if (!guessFeedback[i]) {
                 guessFeedback[i] = "absent";
             }
         });
 
-        // Render the guess feedback
         guess.split("").forEach((char, i) => {
             const box = document.createElement("div");
             box.className = `letter-box ${guessFeedback[i]}`;
