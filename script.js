@@ -46,7 +46,7 @@ function renderGuesses() {
         row.className = "guess-row";
 
         const targetWordArray = [...targetWord];
-        const guessFeedback = guess.split("").map((char, i) => {
+        const feedback = guess.split("").map((char, i) => {
             if (char === targetWord[i]) {
                 targetWordArray[i] = null;
                 return "correct";
@@ -55,17 +55,17 @@ function renderGuesses() {
         });
 
         guess.split("").forEach((char, i) => {
-            if (!guessFeedback[i] && targetWordArray.includes(char)) {
-                guessFeedback[i] = "present";
+            if (!feedback[i] && targetWordArray.includes(char)) {
+                feedback[i] = "present";
                 targetWordArray[targetWordArray.indexOf(char)] = null;
-            } else if (!guessFeedback[i]) {
-                guessFeedback[i] = "absent";
+            } else if (!feedback[i]) {
+                feedback[i] = "absent";
             }
         });
 
         guess.split("").forEach((char, i) => {
             const box = document.createElement("div");
-            box.className = `letter-box ${guessFeedback[i]}`;
+            box.className = `letter-box ${feedback[i]}`;
             box.textContent = char;
             row.appendChild(box);
         });
