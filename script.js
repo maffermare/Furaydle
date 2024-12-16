@@ -2,7 +2,6 @@ const guessGrid = document.getElementById("guess-grid");
 const hintDisplay = document.getElementById("hint-display");
 const wordInput = document.getElementById("word-input");
 
-// Word List
 // Full Word List with Categories and Hints
 const wordList = [
     // Family
@@ -90,7 +89,7 @@ const wordList = [
     { word: "Agnes", hint: "Furay Movies, Books, and Music" },
     { word: "tootie", hint: "Furay Movies, Books, and Music" },
     { word: "Milly", hint: "Furay Movies, Books, and Music" },
-    { word: "Caleb", hint: ""Furay Movies, Books, and Music" },
+    { word: "Caleb", hint: "Furay Movies, Books, and Music" },
     { word: "Frank", hint: "Furay Movies, Books, and Music" },
     { word: "Gideon", hint: "Furay Movies, Books, and Music" },
     { word: "Adam", hint: "Furay Movies, Books, and Music" },
@@ -104,7 +103,7 @@ const wordList = [
     { word: "merry", hint: "Furay Movies, Books, and Music" },
     { word: "gimli", hint: "Furay Movies, Books, and Music" },
 
-       // Furay Locations and Places
+    // Furay Locations and Places
     { word: "Webster", hint: "Furay Locations and Places" },
     { word: "portland", hint: "Furay Locations and Places" },
     { word: "HolyR", hint: "Furay Locations and Places" },
@@ -148,10 +147,9 @@ const wordList = [
     { word: "macys", hint: "Furay Occupations" }
 ];
 
-
 // Game Variables
-let correctWordObj = getRandomWord(); // Initialize correct word object
-let correctWord = correctWordObj.word.toUpperCase(); // Extract the word
+let correctWordObj = {};
+let correctWord = "";
 const maxAttempts = 6;
 let attempts = 0;
 
@@ -160,27 +158,28 @@ function getRandomWord() {
     return wordList[Math.floor(Math.random() * wordList.length)];
 }
 
-function startNewGame() {
-    correctWordObj = getRandomWord(); // Get a new word and hint
-    correctWord = correctWordObj.word.toUpperCase(); // Extract the word
-    wordInput.value = "";
-    wordInput.maxLength = correctWord.length;
+function initializeGame() {
+    correctWordObj = getRandomWord();
+    correctWord = correctWordObj.word.toUpperCase();
     hintDisplay.textContent = `Clue: ${correctWordObj.hint}`;
-    resetGame();
+    wordInput.maxLength = correctWord.length;
+    wordInput.placeholder = `Enter ${correctWord.length} letters`;
+    attempts = 0;
+    guessGrid.innerHTML = "";
 }
 
-function resetGame() {
-    guessGrid.innerHTML = "";
-    attempts = 0;
-    wordInput.placeholder = `Enter ${correctWord.length} letters`;
+function validateInput(input) {
+    if (input.length !== correctWord.length) {
+        alert(`Please enter a ${correctWord.length}-letter word!`);
+        return false;
+    }
+    return true;
 }
 
 function checkWord() {
     const guessedWord = wordInput.value.toUpperCase().trim();
-    if (guessedWord.length !== correctWord.length) {
-        alert(`Please enter a ${correctWord.length}-letter word!`);
-        return;
-    }
+
+    if (!validateInput(guessedWord)) return;
 
     attempts++;
     wordInput.value = "";
@@ -192,7 +191,6 @@ function checkWord() {
     const guessedWordArr = guessedWord.split("");
     const feedback = new Array(correctWord.length).fill("absent");
 
-    // Check for correct letters in correct positions (green)
     for (let i = 0; i < correctWord.length; i++) {
         if (guessedWordArr[i] === correctWordArr[i]) {
             feedback[i] = "correct";
@@ -201,7 +199,6 @@ function checkWord() {
         }
     }
 
-    // Check for correct letters in wrong positions (yellow)
     for (let i = 0; i < correctWord.length; i++) {
         if (guessedWordArr[i] && correctWordArr.includes(guessedWordArr[i])) {
             feedback[i] = "present";
@@ -209,7 +206,6 @@ function checkWord() {
         }
     }
 
-    // Display the guessed word with feedback
     for (let i = 0; i < guessedWord.length; i++) {
         const letterBox = document.createElement("div");
         letterBox.textContent = guessedWord[i];
@@ -221,12 +217,12 @@ function checkWord() {
 
     if (guessedWord === correctWord) {
         alert("Congratulations! You guessed the word!");
-        startNewGame();
+        initializeGame();
     } else if (attempts >= maxAttempts) {
         alert(`Game Over! The correct word was: ${correctWord}`);
-        startNewGame();
+        initializeGame();
     }
 }
 
-// Initialize the game
-startNewGame();
+// Start the Game
+initializeGame();
