@@ -140,6 +140,7 @@ const wordList = [
     { word: "katieL", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
     { word: "AnneB", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
     { word: "PhilH", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
+    { word: "JimB", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
 
     // Furay Occupations and Jobs
     { word: "Teach", hint: "Furay Occupations" },
