@@ -1,7 +1,7 @@
 const guessGrid = document.getElementById("guess-grid");
 const hintDisplay = document.getElementById("hint-display");
 const wordInput = document.getElementById("word-input");
-const guessButton = document.querySelector("button"); // Button to trigger guesses
+const guessButton = document.querySelector("button");
 
 // Full Word List with Categories and Hints
 const wordList = [
@@ -212,7 +212,7 @@ function checkWord() {
         }
     }
 
-    // Check for correct letters in wrong positions (yellow)
+     // Check for correct letters in wrong positions (yellow)
     for (let i = 0; i < correctWord.length; i++) {
         if (guessedWordArr[i] && correctWordArr.includes(guessedWordArr[i])) {
             feedback[i] = "present";
@@ -249,6 +249,14 @@ wordInput.addEventListener("keydown", (event) => {
 
 guessButton.addEventListener("click", () => {
     checkWord();
+});
+
+// Mobile Fix for Popup Issue
+wordInput.addEventListener("focus", () => {
+    window.scrollTo({
+        top: wordInput.getBoundingClientRect().top + window.scrollY - 100,
+        behavior: "smooth"
+    });
 });
 
 // Start the Game
