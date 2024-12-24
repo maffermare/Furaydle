@@ -164,6 +164,7 @@ function initializeGame() {
     hintDisplay.textContent = `Clue: ${correctWordObj.hint}`;
     wordInput.maxLength = correctWord.length;
     wordInput.placeholder = `Enter ${correctWord.length} letters`;
+    wordInput.value = ""; // Clear input field
     attempts = 0;
     guessGrid.innerHTML = "";
 }
