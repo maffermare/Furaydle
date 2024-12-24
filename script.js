@@ -163,6 +163,12 @@ const wordList = [
     { word: "macys", hint: "Furay Occupations" }
 ];
 
+// Game Variables
+let correctWordObj = {};
+let correctWord = "";
+const maxAttempts = 6;
+let attempts = 0;
+
 // Helper Functions
 function getRandomWord() {
     return wordList[Math.floor(Math.random() * wordList.length)];
@@ -176,9 +182,11 @@ function initializeGame() {
     wordInput.placeholder = `Enter ${correctWord.length} letters`;
     wordInput.value = ""; // Clear input field
     errorDisplay.textContent = ""; // Clear any previous messages
+    errorDisplay.style.color = "red"; // Reset message color
     attempts = 0;
     guessGrid.innerHTML = "";
-    wordInput.disabled = false; // Ensure input is enabled for new game
+    wordInput.disabled = false; // Ensure input is enabled for a new game
+    guessButton.disabled = false; // Enable button for new game
 }
 
 function validateInput(input) {
@@ -235,12 +243,14 @@ function checkWord() {
     // Win or Lose Check
     if (guessedWord === correctWord) {
         wordInput.disabled = true; // Disable input on success
-        errorDisplay.style.color = "green"; // Display success message
+        guessButton.disabled = true; // Disable button on success
+        errorDisplay.style.color = "green";
         errorDisplay.textContent = "Congratulations! You guessed the word!";
         setTimeout(initializeGame, 3000); // Restart the game after 3 seconds
     } else if (attempts >= maxAttempts) {
         wordInput.disabled = true; // Disable input on failure
-        errorDisplay.style.color = "red"; // Display failure message
+        guessButton.disabled = true; // Disable button on failure
+        errorDisplay.style.color = "red";
         errorDisplay.textContent = `Game Over! The correct word was: ${correctWord}`;
         setTimeout(initializeGame, 3000); // Restart the game after 3 seconds
     }
