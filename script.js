@@ -252,14 +252,51 @@ function checkWord() {
         guessButton.disabled = true; // Disable button on success
         errorDisplay.style.color = "green";
         errorDisplay.textContent = "Congratulations! You guessed the word!";
-        setTimeout(initializeGame, 3000); // Restart the game after 3 seconds
+        setTimeout(() => {
+            errorDisplay.textContent = ""; // Clear message after a delay
+            initializeGame(); // Restart the game
+        }, 3000); // 3-second delay for user to read message
     } else if (attempts >= maxAttempts) {
         wordInput.disabled = true; // Disable input on failure
         guessButton.disabled = true; // Disable button on failure
         errorDisplay.style.color = "red";
         errorDisplay.textContent = `Game Over! The correct word was: ${correctWord}`;
-        setTimeout(initializeGame, 3000); // Restart the game after 3 seconds
+        setTimeout(() => {
+            errorDisplay.textContent = ""; // Clear message after a delay
+            initializeGame(); // Restart the game
+        }, 3000); // 3-second delay for user to read message
     }
+}
+
+// Helper Function: Validate Input
+function validateInput(input) {
+    if (input.length !== correctWord.length) {
+        errorDisplay.textContent = `Please enter a ${correctWord.length}-letter word!`;
+        return false;
+    }
+    errorDisplay.textContent = ""; // Clear the error message if input is valid
+    return true;
+}
+
+// Helper Function: Initialize the Game
+function initializeGame() {
+    correctWordObj = getRandomWord();
+    correctWord = correctWordObj.word.toUpperCase();
+    hintDisplay.textContent = `Clue: ${correctWordObj.hint}`;
+    wordInput.maxLength = correctWord.length;
+    wordInput.placeholder = `Enter ${correctWord.length} letters`;
+    wordInput.value = ""; // Clear input field
+    errorDisplay.textContent = ""; // Clear any previous messages
+    errorDisplay.style.color = "red"; // Reset message color
+    attempts = 0;
+    guessGrid.innerHTML = "";
+    wordInput.disabled = false; // Ensure input is enabled for new game
+    guessButton.disabled = false; // Enable button for new game
+}
+
+// Helper Function: Get a Random Word
+function getRandomWord() {
+    return wordList[Math.floor(Math.random() * wordList.length)];
 }
 
 // Event Listeners
