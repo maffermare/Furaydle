@@ -2,6 +2,11 @@ const guessGrid = document.getElementById("guess-grid");
 const hintDisplay = document.getElementById("hint-display");
 const wordInput = document.getElementById("word-input");
 const guessButton = document.querySelector("button");
+const errorDisplay = document.createElement("div"); // For displaying error messages
+errorDisplay.style.color = "red";
+errorDisplay.style.marginTop = "10px";
+errorDisplay.style.fontSize = "0.9em";
+document.getElementById("word-input-section").appendChild(errorDisplay);
 
 // Full Word List with Categories and Hints
 const wordList = [
@@ -176,15 +181,17 @@ function initializeGame() {
     wordInput.maxLength = correctWord.length;
     wordInput.placeholder = `Enter ${correctWord.length} letters`;
     wordInput.value = ""; // Clear input field
+    errorDisplay.textContent = ""; // Clear any previous error messages
     attempts = 0;
     guessGrid.innerHTML = "";
 }
 
 function validateInput(input) {
     if (input.length !== correctWord.length) {
-        alert(`Please enter a ${correctWord.length}-letter word!`);
+        errorDisplay.textContent = `Please enter a ${correctWord.length}-letter word!`;
         return false;
     }
+    errorDisplay.textContent = ""; // Clear the error message if input is valid
     return true;
 }
 
@@ -212,7 +219,7 @@ function checkWord() {
         }
     }
 
-     // Check for correct letters in wrong positions (yellow)
+    // Check for correct letters in wrong positions (yellow)
     for (let i = 0; i < correctWord.length; i++) {
         if (guessedWordArr[i] && correctWordArr.includes(guessedWordArr[i])) {
             feedback[i] = "present";
@@ -232,11 +239,11 @@ function checkWord() {
 
     // Win or Lose Check
     if (guessedWord === correctWord) {
-        alert("Congratulations! You guessed the word!");
-        initializeGame();
+        errorDisplay.textContent = "Congratulations! You guessed the word!";
+        setTimeout(initializeGame, 2000); // Restart the game after 2 seconds
     } else if (attempts >= maxAttempts) {
-        alert(`Game Over! The correct word was: ${correctWord}`);
-        initializeGame();
+        errorDisplay.textContent = `Game Over! The correct word was: ${correctWord}`;
+        setTimeout(initializeGame, 2000); // Restart the game after 2 seconds
     }
 }
 
