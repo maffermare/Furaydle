@@ -185,7 +185,7 @@ function initializeGame() {
     errorDisplay.style.color = "red"; // Reset message color
     attempts = 0;
     guessGrid.innerHTML = "";
-    wordInput.disabled = false; // Ensure input is enabled for a new game
+    wordInput.disabled = false; // Ensure input is enabled for new game
     guessButton.disabled = false; // Enable button for new game
 }
 
@@ -199,6 +199,12 @@ function validateInput(input) {
 }
 
 function checkWord() {
+    if (attempts >= maxAttempts) {
+        wordInput.disabled = true;
+        guessButton.disabled = true;
+        return; // Prevent further guesses
+    }
+
     const guessedWord = wordInput.value.toUpperCase().trim();
 
     if (!validateInput(guessedWord)) return;
