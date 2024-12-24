@@ -59,7 +59,10 @@ const wordList = [
     { word: "JoeP", hint: "Family" },
     { word: "Jeroen", hint: "Family" },
     { word: "Patrick", hint: "Family" },
+    { word: "nico", hint: "Family" },
     { word: "Caro", hint: "Family" },
+    { word: "Mies", hint: "Family" },
+    { word: "stnick", hint: "Family" },
 
     // Furay Pets
     { word: "scout", hint: "Furay Pets" },
@@ -80,6 +83,7 @@ const wordList = [
     { word: "dixie", hint: "Furay Pets" },
     { word: "nugget", hint: "Furay Pets" },
     { word: "covid", hint: "furay Pets"},
+    { word: "kitty", hint: "furay Pets"}, 
 
     // Furay Movies, Books, and Music (Furay psyche 'challenge' category)
     { word: "SBFSB", hint: "Furay Movies, Books, and Music (Furay psyche 'challenge' category)" },
@@ -121,18 +125,21 @@ const wordList = [
     { word: "Rosings", hint: "Furay Locations and Places" },
     { word: "dupont", hint: "Furay Locations and Places" },
 
-    // We Can’t Explain How Much We Love This
-    { word: "DUTCH", hint: "We Can’t Explain How Much We Love This" },
-    { word: "Irish", hint: "We Can’t Explain How Much We Love This" },
-    { word: "books", hint: "We Can’t Explain How Much We Love This" },
-    { word: "shows", hint: "We Can’t Explain How Much We Love This" },
-    { word: "rings", hint: "We Can’t Explain How Much We Love This" },
-    { word: "PANDP", hint: "We Can’t Explain How Much We Love This" },
-    { word: "toasty", hint: "We Can’t Explain How Much We Love This" },
-    { word: "vegan", hint: "We Can’t Explain How Much We Love This" },
-    { word: "Skater", hint: "We Can’t Explain How Much We Love This" },
-    { word: "mizzou", hint: "We Can’t Explain How Much We Love This" },
-    { word: "stnick", hint: "We Can’t Explain How Much We Love This" },
+    // Furay Loyalty, Loves and Honorary Furays (challenge category)
+    { word: "DUTCH", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
+    { word: "Irish", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
+    { word: "books", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
+    { word: "shows", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
+    { word: "rings", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
+    { word: "PANDP", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
+    { word: "toasty", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
+    { word: "vegan", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
+    { word: "Skater", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
+    { word: "mizzou", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
+    { word: "justin", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
+    { word: "katieL", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
+    { word: "AnneB", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
+    { word: "PhilH", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
 
     // Furay Occupations and Jobs
     { word: "Teach", hint: "Furay Occupations" },
