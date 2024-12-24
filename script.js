@@ -2,7 +2,7 @@ const guessGrid = document.getElementById("guess-grid");
 const hintDisplay = document.getElementById("hint-display");
 const wordInput = document.getElementById("word-input");
 const guessButton = document.querySelector("button");
-const errorDisplay = document.createElement("div"); // For displaying error messages
+const errorDisplay = document.createElement("div"); // For displaying messages
 errorDisplay.style.color = "red";
 errorDisplay.style.marginTop = "10px";
 errorDisplay.style.fontSize = "0.9em";
@@ -163,12 +163,6 @@ const wordList = [
     { word: "macys", hint: "Furay Occupations" }
 ];
 
-// Game Variables
-let correctWordObj = {};
-let correctWord = "";
-const maxAttempts = 6;
-let attempts = 0;
-
 // Helper Functions
 function getRandomWord() {
     return wordList[Math.floor(Math.random() * wordList.length)];
@@ -181,9 +175,10 @@ function initializeGame() {
     wordInput.maxLength = correctWord.length;
     wordInput.placeholder = `Enter ${correctWord.length} letters`;
     wordInput.value = ""; // Clear input field
-    errorDisplay.textContent = ""; // Clear any previous error messages
+    errorDisplay.textContent = ""; // Clear any previous messages
     attempts = 0;
     guessGrid.innerHTML = "";
+    wordInput.disabled = false; // Ensure input is enabled for new game
 }
 
 function validateInput(input) {
@@ -239,11 +234,15 @@ function checkWord() {
 
     // Win or Lose Check
     if (guessedWord === correctWord) {
+        wordInput.disabled = true; // Disable input on success
+        errorDisplay.style.color = "green"; // Display success message
         errorDisplay.textContent = "Congratulations! You guessed the word!";
-        setTimeout(initializeGame, 2000); // Restart the game after 2 seconds
+        setTimeout(initializeGame, 3000); // Restart the game after 3 seconds
     } else if (attempts >= maxAttempts) {
+        wordInput.disabled = true; // Disable input on failure
+        errorDisplay.style.color = "red"; // Display failure message
         errorDisplay.textContent = `Game Over! The correct word was: ${correctWord}`;
-        setTimeout(initializeGame, 2000); // Restart the game after 2 seconds
+        setTimeout(initializeGame, 3000); // Restart the game after 3 seconds
     }
 }
 
