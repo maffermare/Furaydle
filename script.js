@@ -168,8 +168,8 @@ const wordList = [
 const guessGrid = document.getElementById("guess-grid");
 const hintDisplay = document.getElementById("hint-display");
 const wordInput = document.getElementById("word-input");
-const guessButton = document.getElementById("guess-button"); // Updated for correct ID
-const errorDisplay = document.getElementById("error-message"); // Updated for correct ID
+const guessButton = document.getElementById("guess-button");
+const errorDisplay = document.getElementById("error-message");
 
 // Game Logic Variables
 let correctWordObj = {};
@@ -205,16 +205,26 @@ function initializeGame() {
     const dailyWord = getDailyWord(); // Fetch the daily word
     correctWordObj = dailyWord;
     correctWord = correctWordObj.word.toUpperCase();
-    hintDisplay.textContent = `Clue: ${correctWordObj.hint}`; // Update clue
+
+    // Update the clue in the hint display
+    hintDisplay.textContent = `Clue: ${correctWordObj.hint}`;
+
+    // Reset input and UI elements
     wordInput.maxLength = correctWord.length;
-    wordInput.placeholder = `Enter ${correctWord.length} letters`; // Update placeholder
+    wordInput.placeholder = `Enter ${correctWord.length} letters`;
     wordInput.value = ""; // Clear input field
+
+    // Clear error display and reset attempts
     errorDisplay.textContent = ""; // Clear any previous messages
     errorDisplay.style.color = "red"; // Reset message color
     attempts = 0;
-    guessGrid.innerHTML = ""; // Clear previous guesses
-    wordInput.disabled = false; // Ensure input is enabled for new game
-    guessButton.disabled = false; // Enable button for new game
+
+    // Clear previous guesses
+    guessGrid.innerHTML = "";
+
+    // Ensure input and button are enabled
+    wordInput.disabled = false;
+    guessButton.disabled = false;
 }
 
 // Validate Input
