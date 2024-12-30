@@ -59,6 +59,7 @@ const wordList = [
     { word: "Albert", hint: "Family" },
     { word: "TomB", hint: "Family" },
     { word: "SheRa", hint: "Family" },
+    { word: "Solis", hint: "Family" },
     { word: "Queen", hint: "Family" },
     { word: "zoeP", hint: "Family" },
     { word: "JoeP", hint: "Family" },
