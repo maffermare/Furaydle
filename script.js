@@ -217,11 +217,11 @@ function initializeGame() {
     errorDisplay.style.color = "red"; // Reset message color
     attempts = 0;
     guessGrid.innerHTML = ""; // Clear previous guesses
-    wordInput.disabled = false; // Enable input for new game
+    wordInput.disabled = false; // Ensure input is enabled for new game
     guessButton.disabled = false; // Enable button for new game
 }
 
-// Helper Function: Validate Input
+// Validate Input
 function validateInput(input) {
     if (input.length !== correctWord.length) {
         errorDisplay.textContent = `Please enter a ${correctWord.length}-letter word!`;
@@ -231,7 +231,7 @@ function validateInput(input) {
     return true;
 }
 
-// Helper Function: Check Word
+// Check Word
 function checkWord() {
     if (attempts >= maxAttempts) {
         wordInput.disabled = true;
@@ -288,7 +288,6 @@ function checkWord() {
         errorDisplay.textContent = "Congratulations! You guessed the word!";
         setTimeout(() => {
             errorDisplay.textContent = ""; // Clear message after a delay
-            initializeGame(); // Restart the game
         }, 3000); // 3-second delay for user to read message
     } else if (attempts >= maxAttempts) {
         wordInput.disabled = true; // Disable input on failure
@@ -297,7 +296,6 @@ function checkWord() {
         errorDisplay.textContent = `Game Over! The correct word was: ${correctWord}`;
         setTimeout(() => {
             errorDisplay.textContent = ""; // Clear message after a delay
-            initializeGame(); // Restart the game
         }, 3000); // 3-second delay for user to read message
     }
 }
