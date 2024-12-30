@@ -163,6 +163,7 @@ const wordList = [
     { word: "flytwa", hint: "Furay Occupations" },
     { word: "macys", hint: "Furay Occupations" }
 ];
+
 // Game Variables
 const guessGrid = document.getElementById("guess-grid");
 const hintDisplay = document.getElementById("hint-display");
@@ -315,6 +316,4 @@ guessButton.addEventListener("click", () => {
 });
 
 // Start the Game
-initializeGame();
-
 initializeGame();
