@@ -1,12 +1,8 @@
 const guessGrid = document.getElementById("guess-grid");
 const hintDisplay = document.getElementById("hint-display");
 const wordInput = document.getElementById("word-input");
-const guessButton = document.querySelector("button");
-const errorDisplay = document.createElement("div"); // For displaying messages
-errorDisplay.style.color = "red";
-errorDisplay.style.marginTop = "10px";
-errorDisplay.style.fontSize = "0.9em";
-document.getElementById("word-input-section").appendChild(errorDisplay);
+const guessButton = document.getElementById("guess-button");
+const errorDisplay = document.getElementById("error-message");
 
 // Full Word List with Categories and Hints
 const wordList = [
@@ -165,13 +161,6 @@ const wordList = [
 ];
 
 // Game Variables
-const guessGrid = document.getElementById("guess-grid");
-const hintDisplay = document.getElementById("hint-display");
-const wordInput = document.getElementById("word-input");
-const guessButton = document.getElementById("guess-button");
-const errorDisplay = document.getElementById("error-message");
-
-// Game Logic Variables
 let correctWordObj = {};
 let correctWord = "";
 const maxAttempts = 6;
@@ -205,6 +194,12 @@ function initializeGame() {
     console.log("initializeGame called"); // Log when the function is invoked
 
     const dailyWord = getDailyWord(); // Fetch the daily word
+    if (!dailyWord || !dailyWord.word || !dailyWord.hint) {
+        console.error("Error fetching the daily word:", dailyWord);
+        errorDisplay.textContent = "Error initializing the game. Please reload.";
+        return;
+    }
+
     correctWordObj = dailyWord;
     correctWord = correctWordObj.word.toUpperCase();
 
@@ -243,17 +238,25 @@ function validateInput(input) {
 
 // Check Word
 function checkWord() {
+    console.log("checkWord called");
+    console.log("User input:", wordInput.value);
+
     if (attempts >= maxAttempts) {
         wordInput.disabled = true;
         guessButton.disabled = true;
+        console.warn("Maximum attempts reached.");
         return; // Prevent further guesses
     }
 
     const guessedWord = wordInput.value.toUpperCase().trim();
 
-    if (!validateInput(guessedWord)) return;
+    if (!validateInput(guessedWord)) {
+        console.warn("Invalid input:", guessedWord);
+        return;
+    }
 
     attempts++;
+    console.log("Attempts:", attempts);
     wordInput.value = "";
 
     const guessRow = document.createElement("div");
@@ -317,3 +320,4 @@ guessButton.addEventListener("click", () => {
 
 // Start the Game
 initializeGame();
+    
