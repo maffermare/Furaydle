@@ -3,7 +3,7 @@
 A Wordle-like game implemented in HTML, CSS, and JavaScript.
 
 ## Features
-- A single daily word refreshed every 24 hours at midnight.
+- A single daily word refreshed every 24 hours at **5 AM CST**.
 - Randomized words with hints from various categories.
 - Support for words of varying lengths (4 to 7 letters).
 - Visual feedback for correct, present, and absent letters.
@@ -12,14 +12,15 @@ A Wordle-like game implemented in HTML, CSS, and JavaScript.
 
 ## Setup Instructions
 1. Clone this repository or copy the files to your project directory.
-2. Open `index.html` in any browser to start the game.
+2. Ensure all files (`index.html`, `style.css`, and `script.js`) are in the same directory.
+3. Open `index.html` in any browser to start the game.
 
 ## How to Play
 1. The game displays a single word with a clue each day.
 2. Enter a word that matches the required length.
 3. Use the feedback (green, yellow, and gray) to refine your guesses.
 4. You have six attempts to guess the correct word.
-5. The word and clue will refresh daily at midnight.
+5. The word and clue will refresh daily at **5 AM CST** for all users.
 
 ## Customization
 - Add more words and hints by updating the `wordList` array in `script.js`.
