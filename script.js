@@ -163,7 +163,6 @@ const wordList = [
     { word: "flytwa", hint: "Furay Occupations" },
     { word: "macys", hint: "Furay Occupations" }
 ];
-
 // Game Variables
 const guessGrid = document.getElementById("guess-grid");
 const hintDisplay = document.getElementById("hint-display");
@@ -202,9 +201,13 @@ function getDailyWord() {
 
 // Initialize Game
 function initializeGame() {
+    console.log("initializeGame called"); // Log when the function is invoked
+
     const dailyWord = getDailyWord(); // Fetch the daily word
     correctWordObj = dailyWord;
     correctWord = correctWordObj.word.toUpperCase();
+
+    console.log("Clue:", correctWordObj.hint); // Log the clue for debugging
 
     // Update the clue in the hint display
     hintDisplay.textContent = `Clue: ${correctWordObj.hint}`;
@@ -312,4 +315,6 @@ guessButton.addEventListener("click", () => {
 });
 
 // Start the Game
+initializeGame();
+
 initializeGame();
