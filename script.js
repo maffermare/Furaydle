@@ -168,12 +168,8 @@ const wordList = [
 const guessGrid = document.getElementById("guess-grid");
 const hintDisplay = document.getElementById("hint-display");
 const wordInput = document.getElementById("word-input");
-const guessButton = document.querySelector("button");
-const errorDisplay = document.createElement("div"); // For displaying messages
-errorDisplay.style.color = "red";
-errorDisplay.style.marginTop = "10px";
-errorDisplay.style.fontSize = "0.9em";
-document.getElementById("word-input-section").appendChild(errorDisplay);
+const guessButton = document.getElementById("guess-button");
+const errorDisplay = document.getElementById("error-message"); // For displaying messages
 
 // Game Logic Variables
 let correctWordObj = {};
@@ -181,16 +177,16 @@ let correctWord = "";
 const maxAttempts = 6;
 let attempts = 0;
 
-// Helper Function: Get CST Date
-function getCSTDate() {
+// Helper Function: Get CST Date with 5 AM Adjustment
+function getCSTDateWith5AMAdjustment() {
     const now = new Date();
     const utcTime = now.getTime() + now.getTimezoneOffset() * 60000; // Convert to UTC
     const cstOffset = -6 * 60 * 60000; // CST offset: UTC-6
     const cstTime = new Date(utcTime + cstOffset);
 
-    // Check if the current time is before 5 AM CST and adjust the date if necessary
+    // Adjust to the previous day if before 5 AM CST
     if (cstTime.getHours() < 5) {
-        cstTime.setDate(cstTime.getDate() - 1); // Use the previous day
+        cstTime.setDate(cstTime.getDate() - 1);
     }
 
     return cstTime.toISOString().split("T")[0]; // Return YYYY-MM-DD
@@ -198,9 +194,9 @@ function getCSTDate() {
 
 // Helper Function: Get the Daily Word Based on CST Date
 function getDailyWord() {
-    const cstDate = getCSTDate(); // Get the CST date string
+    const cstDate = getCSTDateWith5AMAdjustment();
     const hash = Array.from(cstDate).reduce((sum, char) => sum + char.charCodeAt(0), 0); // Simple hash
-    const index = hash % wordList.length; // Use hash to select a word from the word list
+    const index = hash % wordList.length; // Use hash to select a word
     return wordList[index];
 }
 
@@ -209,16 +205,15 @@ function initializeGame() {
     const dailyWord = getDailyWord(); // Fetch the daily word
     correctWordObj = dailyWord;
     correctWord = correctWordObj.word.toUpperCase();
-    hintDisplay.textContent = `Clue: ${correctWordObj.hint}`;
+    hintDisplay.textContent = `Clue: ${correctWordObj.hint}`; // Ensure clue is displayed
     wordInput.maxLength = correctWord.length;
     wordInput.placeholder = `Enter ${correctWord.length} letters`;
     wordInput.value = ""; // Clear input field
     errorDisplay.textContent = ""; // Clear any previous messages
-    errorDisplay.style.color = "red"; // Reset message color
     attempts = 0;
     guessGrid.innerHTML = ""; // Clear previous guesses
-    wordInput.disabled = false; // Ensure input is enabled for new game
-    guessButton.disabled = false; // Enable button for new game
+    wordInput.disabled = false; // Enable input
+    guessButton.disabled = false; // Enable button
 }
 
 // Validate Input
@@ -227,7 +222,7 @@ function validateInput(input) {
         errorDisplay.textContent = `Please enter a ${correctWord.length}-letter word!`;
         return false;
     }
-    errorDisplay.textContent = ""; // Clear the error message if input is valid
+    errorDisplay.textContent = ""; // Clear error message
     return true;
 }
 
@@ -282,13 +277,13 @@ function checkWord() {
 
     // Win or Lose Check
     if (guessedWord === correctWord) {
-        wordInput.disabled = true; // Disable input on success
-        guessButton.disabled = true; // Disable button on success
+        wordInput.disabled = true;
+        guessButton.disabled = true;
         errorDisplay.style.color = "green";
         errorDisplay.textContent = "Congratulations! You guessed the word!";
     } else if (attempts >= maxAttempts) {
-        wordInput.disabled = true; // Disable input on failure
-        guessButton.disabled = true; // Disable button on failure
+        wordInput.disabled = true;
+        guessButton.disabled = true;
         errorDisplay.style.color = "red";
         errorDisplay.textContent = `Game Over! The correct word was: ${correctWord}`;
     }
