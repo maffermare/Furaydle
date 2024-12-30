@@ -165,80 +165,78 @@ const wordList = [
 ];
 
 // Game Variables
+const guessGrid = document.getElementById("guess-grid");
+const hintDisplay = document.getElementById("hint-display");
+const wordInput = document.getElementById("word-input");
+const guessButton = document.querySelector("button");
+const errorDisplay = document.createElement("div"); // For displaying messages
+errorDisplay.style.color = "red";
+errorDisplay.style.marginTop = "10px";
+errorDisplay.style.fontSize = "0.9em";
+document.getElementById("word-input-section").appendChild(errorDisplay);
+
+// Game Logic Variables
 let correctWordObj = {};
 let correctWord = "";
 const maxAttempts = 6;
 let attempts = 0;
 
-// Helper Functions
-
-// Get a random word from the word list
-function getRandomWord() {
-    return wordList[Math.floor(Math.random() * wordList.length)];
-}
-
-// Get the current date in YYYY-MM-DD format
-function getFormattedDate() {
+// Helper Function: Get CST Date
+function getCSTDate() {
     const now = new Date();
-    return now.toISOString().split("T")[0];
-}
+    const utcTime = now.getTime() + now.getTimezoneOffset() * 60000; // Convert to UTC
+    const cstOffset = -6 * 60 * 60000; // CST offset: UTC-6
+    const cstTime = new Date(utcTime + cstOffset);
 
-// Get the next refresh time (midnight local time)
-function getNextRefreshTime() {
-    const now = new Date();
-    const refreshTime = new Date();
-    refreshTime.setHours(0, 0, 0, 0); // Midnight
-    refreshTime.setDate(now.getDate() + 1); // Next day
-    return refreshTime.getTime(); // Return timestamp
-}
-
-// Get the daily word, stored and refreshed every 24 hours
-function getDailyWord() {
-    const now = Date.now();
-    const storedRefreshTime = parseInt(localStorage.getItem("nextRefreshTime"), 10);
-
-    if (!storedRefreshTime || now >= storedRefreshTime) {
-        const newWord = getRandomWord();
-        localStorage.setItem("dailyWord", JSON.stringify(newWord));
-        localStorage.setItem("nextRefreshTime", getNextRefreshTime());
-        return newWord;
-    } else {
-        return JSON.parse(localStorage.getItem("dailyWord"));
+    // Check if the current time is before 5 AM CST and adjust the date if necessary
+    if (cstTime.getHours() < 5) {
+        cstTime.setDate(cstTime.getDate() - 1); // Use the previous day
     }
+
+    return cstTime.toISOString().split("T")[0]; // Return YYYY-MM-DD
 }
 
-// Initialize the game
+// Helper Function: Get the Daily Word Based on CST Date
+function getDailyWord() {
+    const cstDate = getCSTDate(); // Get the CST date string
+    const hash = Array.from(cstDate).reduce((sum, char) => sum + char.charCodeAt(0), 0); // Simple hash
+    const index = hash % wordList.length; // Use hash to select a word from the word list
+    return wordList[index];
+}
+
+// Initialize Game
 function initializeGame() {
-    const dailyWord = getDailyWord();
+    const dailyWord = getDailyWord(); // Fetch the daily word
     correctWordObj = dailyWord;
     correctWord = correctWordObj.word.toUpperCase();
     hintDisplay.textContent = `Clue: ${correctWordObj.hint}`;
     wordInput.maxLength = correctWord.length;
     wordInput.placeholder = `Enter ${correctWord.length} letters`;
     wordInput.value = ""; // Clear input field
-    errorDisplay.textContent = ""; // Clear messages
+    errorDisplay.textContent = ""; // Clear any previous messages
+    errorDisplay.style.color = "red"; // Reset message color
     attempts = 0;
-    guessGrid.innerHTML = ""; // Clear guesses
-    wordInput.disabled = false; // Enable input
-    guessButton.disabled = false; // Enable button
+    guessGrid.innerHTML = ""; // Clear previous guesses
+    wordInput.disabled = false; // Enable input for new game
+    guessButton.disabled = false; // Enable button for new game
 }
 
-// Validate the user's input
+// Helper Function: Validate Input
 function validateInput(input) {
     if (input.length !== correctWord.length) {
         errorDisplay.textContent = `Please enter a ${correctWord.length}-letter word!`;
         return false;
     }
-    errorDisplay.textContent = ""; // Clear error message
+    errorDisplay.textContent = ""; // Clear the error message if input is valid
     return true;
 }
 
-// Check the guessed word
+// Helper Function: Check Word
 function checkWord() {
     if (attempts >= maxAttempts) {
         wordInput.disabled = true;
         guessButton.disabled = true;
-        return; // Prevent more guesses
+        return; // Prevent further guesses
     }
 
     const guessedWord = wordInput.value.toUpperCase().trim();
@@ -246,7 +244,7 @@ function checkWord() {
     if (!validateInput(guessedWord)) return;
 
     attempts++;
-    wordInput.value = ""; // Clear input
+    wordInput.value = "";
 
     const guessRow = document.createElement("div");
     guessRow.classList.add("guess-row");
@@ -282,25 +280,25 @@ function checkWord() {
 
     guessGrid.appendChild(guessRow);
 
-    // Win or Lose Conditions
+    // Win or Lose Check
     if (guessedWord === correctWord) {
-        wordInput.disabled = true;
-        guessButton.disabled = true;
+        wordInput.disabled = true; // Disable input on success
+        guessButton.disabled = true; // Disable button on success
         errorDisplay.style.color = "green";
         errorDisplay.textContent = "Congratulations! You guessed the word!";
         setTimeout(() => {
-            errorDisplay.textContent = ""; // Clear message after delay
-            initializeGame(); // Restart game
-        }, 3000);
+            errorDisplay.textContent = ""; // Clear message after a delay
+            initializeGame(); // Restart the game
+        }, 3000); // 3-second delay for user to read message
     } else if (attempts >= maxAttempts) {
-        wordInput.disabled = true;
-        guessButton.disabled = true;
+        wordInput.disabled = true; // Disable input on failure
+        guessButton.disabled = true; // Disable button on failure
         errorDisplay.style.color = "red";
         errorDisplay.textContent = `Game Over! The correct word was: ${correctWord}`;
         setTimeout(() => {
-            errorDisplay.textContent = ""; // Clear message after delay
-            initializeGame(); // Restart game
-        }, 3000);
+            errorDisplay.textContent = ""; // Clear message after a delay
+            initializeGame(); // Restart the game
+        }, 3000); // 3-second delay for user to read message
     }
 }
 
@@ -315,5 +313,5 @@ guessButton.addEventListener("click", () => {
     checkWord();
 });
 
-// Start the game
+// Start the Game
 initializeGame();
