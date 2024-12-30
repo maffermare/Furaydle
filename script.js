@@ -165,69 +165,80 @@ const wordList = [
 ];
 
 // Game Variables
-const guessGrid = document.getElementById("guess-grid");
-const hintDisplay = document.getElementById("hint-display");
-const wordInput = document.getElementById("word-input");
-const guessButton = document.querySelector("button");
-const errorDisplay = document.createElement("div"); // For displaying messages
-errorDisplay.style.color = "red";
-errorDisplay.style.marginTop = "10px";
-errorDisplay.style.fontSize = "0.9em";
-document.getElementById("word-input-section").appendChild(errorDisplay);
-
 let correctWordObj = {};
 let correctWord = "";
 const maxAttempts = 6;
 let attempts = 0;
 
 // Helper Functions
-function getFormattedDate() {
-    const now = new Date();
-    return now.toISOString().split("T")[0]; // Returns YYYY-MM-DD
+
+// Get a random word from the word list
+function getRandomWord() {
+    return wordList[Math.floor(Math.random() * wordList.length)];
 }
 
+// Get the current date in YYYY-MM-DD format
+function getFormattedDate() {
+    const now = new Date();
+    return now.toISOString().split("T")[0];
+}
+
+// Get the next refresh time (midnight local time)
 function getNextRefreshTime() {
     const now = new Date();
     const refreshTime = new Date();
-    refreshTime.setHours(0, 0, 0, 0); // Set to midnight
-    refreshTime.setDate(now.getDate() + 1); // Set to the next day
-    return refreshTime.getTime(); // Return as a timestamp
+    refreshTime.setHours(0, 0, 0, 0); // Midnight
+    refreshTime.setDate(now.getDate() + 1); // Next day
+    return refreshTime.getTime(); // Return timestamp
 }
 
+// Get the daily word, stored and refreshed every 24 hours
 function getDailyWord() {
-    const now = Date.now(); // Current timestamp
+    const now = Date.now();
     const storedRefreshTime = parseInt(localStorage.getItem("nextRefreshTime"), 10);
 
     if (!storedRefreshTime || now >= storedRefreshTime) {
-        // Generate a new word if no refresh time is stored, or if the time has passed
         const newWord = getRandomWord();
         localStorage.setItem("dailyWord", JSON.stringify(newWord));
         localStorage.setItem("nextRefreshTime", getNextRefreshTime());
         return newWord;
     } else {
-        // Use the existing word
         return JSON.parse(localStorage.getItem("dailyWord"));
     }
 }
 
-function getRandomWord() {
-    return wordList[Math.floor(Math.random() * wordList.length)];
+// Initialize the game
+function initializeGame() {
+    const dailyWord = getDailyWord();
+    correctWordObj = dailyWord;
+    correctWord = correctWordObj.word.toUpperCase();
+    hintDisplay.textContent = `Clue: ${correctWordObj.hint}`;
+    wordInput.maxLength = correctWord.length;
+    wordInput.placeholder = `Enter ${correctWord.length} letters`;
+    wordInput.value = ""; // Clear input field
+    errorDisplay.textContent = ""; // Clear messages
+    attempts = 0;
+    guessGrid.innerHTML = ""; // Clear guesses
+    wordInput.disabled = false; // Enable input
+    guessButton.disabled = false; // Enable button
 }
 
+// Validate the user's input
 function validateInput(input) {
     if (input.length !== correctWord.length) {
         errorDisplay.textContent = `Please enter a ${correctWord.length}-letter word!`;
         return false;
     }
-    errorDisplay.textContent = ""; // Clear the error message if input is valid
+    errorDisplay.textContent = ""; // Clear error message
     return true;
 }
 
+// Check the guessed word
 function checkWord() {
     if (attempts >= maxAttempts) {
         wordInput.disabled = true;
         guessButton.disabled = true;
-        return; // Prevent further guesses
+        return; // Prevent more guesses
     }
 
     const guessedWord = wordInput.value.toUpperCase().trim();
@@ -235,7 +246,7 @@ function checkWord() {
     if (!validateInput(guessedWord)) return;
 
     attempts++;
-    wordInput.value = "";
+    wordInput.value = ""; // Clear input
 
     const guessRow = document.createElement("div");
     guessRow.classList.add("guess-row");
@@ -271,59 +282,38 @@ function checkWord() {
 
     guessGrid.appendChild(guessRow);
 
-    // Win or Lose Check
+    // Win or Lose Conditions
     if (guessedWord === correctWord) {
-        wordInput.disabled = true; // Disable input on success
-        guessButton.disabled = true; // Disable button on success
+        wordInput.disabled = true;
+        guessButton.disabled = true;
         errorDisplay.style.color = "green";
         errorDisplay.textContent = "Congratulations! You guessed the word!";
         setTimeout(() => {
-            errorDisplay.textContent = ""; // Clear message after a delay
-            initializeGame(); // Restart the game
-        }, 3000); // 3-second delay for user to read message
+            errorDisplay.textContent = ""; // Clear message after delay
+            initializeGame(); // Restart game
+        }, 3000);
     } else if (attempts >= maxAttempts) {
-        wordInput.disabled = true; // Disable input on failure
-        guessButton.disabled = true; // Disable button on failure
+        wordInput.disabled = true;
+        guessButton.disabled = true;
         errorDisplay.style.color = "red";
         errorDisplay.textContent = `Game Over! The correct word was: ${correctWord}`;
         setTimeout(() => {
-            errorDisplay.textContent = ""; // Clear message after a delay
-            initializeGame(); // Restart the game
-        }, 3000); // 3-second delay for user to read message
+            errorDisplay.textContent = ""; // Clear message after delay
+            initializeGame(); // Restart game
+        }, 3000);
     }
 }
 
-// Initialize Game Function
-function initializeGame() {
-    const dailyWord = getDailyWord(); // Fetch or generate the daily word
-    correctWordObj = dailyWord;
-    correctWord = correctWordObj.word.toUpperCase();
-    hintDisplay.textContent = `Clue: ${correctWordObj.hint}`;
-    wordInput.maxLength = correctWord.length;
-    wordInput.placeholder = `Enter ${correctWord.length} letters`;
-    wordInput.value = ""; // Clear input field
-    errorDisplay.textContent = ""; // Clear any previous messages
-    errorDisplay.style.color = "red"; // Reset message color
-    attempts = 0;
-    guessGrid.innerHTML = "";
-    wordInput.disabled = false; // Ensure input is enabled for new game
-    guessButton.disabled = false; // Enable button for new game
-
-    // Display the current time stamp
-    const timeStampElement = document.getElementById("time-stamp");
-    if (timeStampElement) {
-        const now = new Date();
-        timeStampElement.textContent = `Game started at: ${now.toLocaleString()}`;
+// Event Listeners
+wordInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        checkWord();
     }
-}
-
-// Mobile Fix for Popup Issue
-wordInput.addEventListener("focus", () => {
-    window.scrollTo({
-        top: wordInput.getBoundingClientRect().top + window.scrollY - 100,
-        behavior: "smooth"
-    });
 });
 
-// Start the Game
+guessButton.addEventListener("click", () => {
+    checkWord();
+});
+
+// Start the game
 initializeGame();
