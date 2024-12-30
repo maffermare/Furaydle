@@ -19,6 +19,12 @@ body {
     margin-top: 20px;
 }
 
+#time-stamp {
+    color: #555;
+    font-size: 0.9em;
+    margin-bottom: 20px;
+}
+
 #word-input-section {
     margin-bottom: 20px;
 }
@@ -35,6 +41,12 @@ button {
     font-size: 16px;
     cursor: pointer;
     margin-left: 5px;
+}
+
+#error-display {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 10px;
 }
 
 #guess-grid {
