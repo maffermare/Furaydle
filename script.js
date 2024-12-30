@@ -286,17 +286,11 @@ function checkWord() {
         guessButton.disabled = true; // Disable button on success
         errorDisplay.style.color = "green";
         errorDisplay.textContent = "Congratulations! You guessed the word!";
-        setTimeout(() => {
-            errorDisplay.textContent = ""; // Clear message after a delay
-        }, 3000); // 3-second delay for user to read message
     } else if (attempts >= maxAttempts) {
         wordInput.disabled = true; // Disable input on failure
         guessButton.disabled = true; // Disable button on failure
         errorDisplay.style.color = "red";
         errorDisplay.textContent = `Game Over! The correct word was: ${correctWord}`;
-        setTimeout(() => {
-            errorDisplay.textContent = ""; // Clear message after a delay
-        }, 3000); // 3-second delay for user to read message
     }
 }
 
