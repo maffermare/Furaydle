@@ -165,29 +165,53 @@ const wordList = [
 ];
 
 // Game Variables
+const guessGrid = document.getElementById("guess-grid");
+const hintDisplay = document.getElementById("hint-display");
+const wordInput = document.getElementById("word-input");
+const guessButton = document.querySelector("button");
+const errorDisplay = document.createElement("div"); // For displaying messages
+errorDisplay.style.color = "red";
+errorDisplay.style.marginTop = "10px";
+errorDisplay.style.fontSize = "0.9em";
+document.getElementById("word-input-section").appendChild(errorDisplay);
+
 let correctWordObj = {};
 let correctWord = "";
 const maxAttempts = 6;
 let attempts = 0;
 
 // Helper Functions
-function getRandomWord() {
-    return wordList[Math.floor(Math.random() * wordList.length)];
+function getFormattedDate() {
+    const now = new Date();
+    return now.toISOString().split("T")[0]; // Returns YYYY-MM-DD
 }
 
-function initializeGame() {
-    correctWordObj = getRandomWord();
-    correctWord = correctWordObj.word.toUpperCase();
-    hintDisplay.textContent = `Clue: ${correctWordObj.hint}`;
-    wordInput.maxLength = correctWord.length;
-    wordInput.placeholder = `Enter ${correctWord.length} letters`;
-    wordInput.value = ""; // Clear input field
-    errorDisplay.textContent = ""; // Clear any previous messages
-    errorDisplay.style.color = "red"; // Reset message color
-    attempts = 0;
-    guessGrid.innerHTML = "";
-    wordInput.disabled = false; // Ensure input is enabled for new game
-    guessButton.disabled = false; // Enable button for new game
+function getNextRefreshTime() {
+    const now = new Date();
+    const refreshTime = new Date();
+    refreshTime.setHours(0, 0, 0, 0); // Set to midnight
+    refreshTime.setDate(now.getDate() + 1); // Set to the next day
+    return refreshTime.getTime(); // Return as a timestamp
+}
+
+function getDailyWord() {
+    const now = Date.now(); // Current timestamp
+    const storedRefreshTime = parseInt(localStorage.getItem("nextRefreshTime"), 10);
+
+    if (!storedRefreshTime || now >= storedRefreshTime) {
+        // Generate a new word if no refresh time is stored, or if the time has passed
+        const newWord = getRandomWord();
+        localStorage.setItem("dailyWord", JSON.stringify(newWord));
+        localStorage.setItem("nextRefreshTime", getNextRefreshTime());
+        return newWord;
+    } else {
+        // Use the existing word
+        return JSON.parse(localStorage.getItem("dailyWord"));
+    }
+}
+
+function getRandomWord() {
+    return wordList[Math.floor(Math.random() * wordList.length)];
 }
 
 function validateInput(input) {
@@ -269,19 +293,10 @@ function checkWord() {
     }
 }
 
-// Helper Function: Validate Input
-function validateInput(input) {
-    if (input.length !== correctWord.length) {
-        errorDisplay.textContent = `Please enter a ${correctWord.length}-letter word!`;
-        return false;
-    }
-    errorDisplay.textContent = ""; // Clear the error message if input is valid
-    return true;
-}
-
-// Helper Function: Initialize the Game
+// Initialize Game Function
 function initializeGame() {
-    correctWordObj = getRandomWord();
+    const dailyWord = getDailyWord(); // Fetch or generate the daily word
+    correctWordObj = dailyWord;
     correctWord = correctWordObj.word.toUpperCase();
     hintDisplay.textContent = `Clue: ${correctWordObj.hint}`;
     wordInput.maxLength = correctWord.length;
@@ -293,23 +308,14 @@ function initializeGame() {
     guessGrid.innerHTML = "";
     wordInput.disabled = false; // Ensure input is enabled for new game
     guessButton.disabled = false; // Enable button for new game
-}
 
-// Helper Function: Get a Random Word
-function getRandomWord() {
-    return wordList[Math.floor(Math.random() * wordList.length)];
-}
-
-// Event Listeners
-wordInput.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-        checkWord();
+    // Display the current time stamp
+    const timeStampElement = document.getElementById("time-stamp");
+    if (timeStampElement) {
+        const now = new Date();
+        timeStampElement.textContent = `Game started at: ${now.toLocaleString()}`;
     }
-});
-
-guessButton.addEventListener("click", () => {
-    checkWord();
-});
+}
 
 // Mobile Fix for Popup Issue
 wordInput.addEventListener("focus", () => {
