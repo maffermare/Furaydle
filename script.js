@@ -175,15 +175,17 @@ const wordList = [
     { word: "Teach", hint: "Furay Occupations" },
     { word: "nurse", hint: "Furay Occupations" },
     { word: "libby", hint: "Furay Occupations" },
-    { word: "bank", hint: "Furay Occupations" },
+    { word: "alfred", hint: "Furay Occupations" },
     { word: "army", hint: "Furay Occupations" },
     { word: "navy", hint: "Furay Occupations" },
     { word: "sales", hint: "Furay Occupations" },
     { word: "mercy", hint: "Furay Occupations" },
     { word: "target", hint: "Furay Occupations" },
-    { word: "rallys", hint: "Furay Occupations" },
+    { word: "encore", hint: "Furay Occupations" },
+    { word: "sxflgs", hint: "Furay Occupations" },
     { word: "WGPL", hint: "Furay Occupations" },
     { word: "flytwa", hint: "Furay Occupations" },
+    { word: "usbank", hint: "Furay Occupations" },
     { word: "macys", hint: "Furay Occupations" }
 ];
 
@@ -208,7 +210,6 @@ function getCSTDate() {
     return cstTime.toISOString().split("T")[0]; // Return YYYY-MM-DD
 }
 
-// Helper Function: Get the Daily Word Based on CST Date
 function getDailyWord() {
     const cstDate = getCSTDate(); // Get the CST date string
     const hash = Array.from(cstDate).reduce((sum, char) => sum + char.charCodeAt(0), 0); // Simple hash
