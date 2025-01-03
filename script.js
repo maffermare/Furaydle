@@ -208,7 +208,7 @@ function getCSTDate() {
 
 function getDailyWord() {
     const cstDate = getCSTDate();
-    const hash = Array.from(cstDate).reduce((sum, char) => sum + char.charCodeAt(0), 0);
+    const hash = Array.from(cstDate).reduce((sum, char) => sum * 31 + char.charCodeAt(0), 7);
     return wordList[hash % wordList.length];
     console.log(`Date: ${cstDate}, Hash: ${hash}, Index: ${index}`);
 }
