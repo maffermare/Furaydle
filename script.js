@@ -194,14 +194,6 @@ let correctWord = "";
 const maxAttempts = 6;
 let attempts = 0;
 
-const debugDate1 = "2024-12-01"; // Example: Simulate December 1, 2024
-const debugDate2 = "2024-12-02"; // Example: Simulate December 2, 2024
-const simulatedWord1 = getDailyWord(debugDate1);
-const simulatedWord2 = getDailyWord(debugDate2);
-
-console.log(`Simulated Word for ${debugDate1}:`, simulatedWord1);
-console.log(`Simulated Word for ${debugDate2}:`, simulatedWord2);
-
 function initializeGame() {
     console.log("initializeGame called"); // Log when the function is invoked
 
@@ -267,6 +259,4 @@ guessButton.addEventListener("click", () => {
 });
 
 // Start the Game
-initializeGame();
-
 initializeGame();
