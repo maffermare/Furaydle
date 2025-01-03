@@ -202,47 +202,25 @@ const simulatedWord2 = getDailyWord(debugDate2);
 console.log(`Simulated Word for ${debugDate1}:`, simulatedWord1);
 console.log(`Simulated Word for ${debugDate2}:`, simulatedWord2);
 
-
-function getCSTDate(debugDate) {
-    if (debugDate) {
-        return debugDate; // Use the provided debug date
-    }
-    const now = new Date();
-    const utcTime = now.getTime() + now.getTimezoneOffset() * 60000; // Convert to UTC
-    const cstOffset = -6 * 60 * 60000; // CST offset: UTC-6
-    const cstTime = new Date(utcTime + cstOffset);
-    if (cstTime.getHours() < 5) {
-        cstTime.setDate(cstTime.getDate() - 1);
-    }
-    return cstTime.toISOString().split("T")[0];
-}
-
-function getDailyWord() {
-    const cstDate = getCSTDate(); // Get the CST date string
-    const hash = Array.from(cstDate).reduce((sum, char) => sum + char.charCodeAt(0), 0); // Simple hash
-    const index = hash % wordList.length; // Use hash to select a word from the word list
-
-    console.log(`Date: ${cstDate}, Hash: ${hash}, Index: ${index}, Word: ${wordList[index].word}, Hint: ${wordList[index].hint}`);
-
-    return wordList[index];
-}
-
-
-// Initialize Game
 function initializeGame() {
     console.log("initializeGame called"); // Log when the function is invoked
 
-    const dailyWord = getDailyWord(); // Fetch the daily word
+    // Fetch the daily word
+    const dailyWord = getDailyWord(); 
     if (!dailyWord || !dailyWord.word || !dailyWord.hint) {
         console.error("Error fetching the daily word:", dailyWord);
         errorDisplay.textContent = "Error initializing the game. Please reload.";
         return;
     }
 
+    // Assign the correct word and its hint
     correctWordObj = dailyWord;
     correctWord = correctWordObj.word.toUpperCase();
 
-    console.log("Clue:", correctWordObj.hint); // Log the clue for debugging
+    console.log("Daily Word Details:", {
+        word: correctWordObj.word,
+        hint: correctWordObj.hint
+    });
 
     // Update the clue in the hint display
     hintDisplay.textContent = `Clue: ${correctWordObj.hint}`;
@@ -263,87 +241,9 @@ function initializeGame() {
     // Ensure input and button are enabled
     wordInput.disabled = false;
     guessButton.disabled = false;
-}
 
-// Validate Input
-function validateInput(input) {
-    if (input.length !== correctWord.length) {
-        errorDisplay.textContent = `Please enter a ${correctWord.length}-letter word!`;
-        return false;
-    }
-    errorDisplay.textContent = ""; // Clear the error message if input is valid
-    return true;
-}
-
-// Check Word
-function checkWord() {
-    console.log("checkWord called");
-    console.log("User input:", wordInput.value);
-
-    if (attempts >= maxAttempts) {
-        wordInput.disabled = true;
-        guessButton.disabled = true;
-        console.warn("Maximum attempts reached.");
-        return; // Prevent further guesses
-    }
-
-    const guessedWord = wordInput.value.toUpperCase().trim();
-
-    if (!validateInput(guessedWord)) {
-        console.warn("Invalid input:", guessedWord);
-        return;
-    }
-
-    attempts++;
-    console.log("Attempts:", attempts);
-    wordInput.value = "";
-
-    const guessRow = document.createElement("div");
-    guessRow.classList.add("guess-row");
-
-    const correctWordArr = correctWord.split("");
-    const guessedWordArr = guessedWord.split("");
-    const feedback = new Array(correctWord.length).fill("absent");
-
-    // Check for correct letters in correct positions (green)
-    for (let i = 0; i < correctWord.length; i++) {
-        if (guessedWordArr[i] === correctWordArr[i]) {
-            feedback[i] = "correct";
-            correctWordArr[i] = null;
-            guessedWordArr[i] = null;
-        }
-    }
-
-    // Check for correct letters in wrong positions (yellow)
-    for (let i = 0; i < correctWord.length; i++) {
-        if (guessedWordArr[i] && correctWordArr.includes(guessedWordArr[i])) {
-            feedback[i] = "present";
-            correctWordArr[correctWordArr.indexOf(guessedWordArr[i])] = null;
-        }
-    }
-
-    // Display the guessed word with feedback
-    for (let i = 0; i < guessedWord.length; i++) {
-        const letterBox = document.createElement("div");
-        letterBox.textContent = guessedWord[i];
-        letterBox.classList.add(feedback[i]);
-        guessRow.appendChild(letterBox);
-    }
-
-    guessGrid.appendChild(guessRow);
-
-    // Win or Lose Check
-    if (guessedWord === correctWord) {
-        wordInput.disabled = true; // Disable input on success
-        guessButton.disabled = true; // Disable button on success
-        errorDisplay.style.color = "green";
-        errorDisplay.textContent = "Congratulations! You guessed the word!";
-    } else if (attempts >= maxAttempts) {
-        wordInput.disabled = true; // Disable input on failure
-        guessButton.disabled = true; // Disable button on failure
-        errorDisplay.style.color = "red";
-        errorDisplay.textContent = `Game Over! The correct word was: ${correctWord}`;
-    }
+    // Debugging: Log the word and hint to verify randomness
+    console.log(`Game initialized with word: ${correctWord}, hint: ${correctWordObj.hint}`);
 }
 
 // Event Listeners
