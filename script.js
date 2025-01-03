@@ -179,6 +179,7 @@ const wordList = [
     { word: "Molner", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
     { word: "KatieK", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
     { word: "JeffE", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
+    { word: "Bridget", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
 
     // Furay Occupations and Jobs
     { word: "Teach", hint: "Furay Occupations" },
