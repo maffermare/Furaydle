@@ -203,12 +203,6 @@ function initializeGame() {
     correctWordObj = dailyWord;
     correctWord = correctWordObj.word.toUpperCase();
 
-    if (!correctWord) {
-        console.error("Error: Correct word is undefined or empty.");
-        errorDisplay.textContent = "Error initializing the game. Please reload.";
-        return;
-    }
-
     console.log("Clue:", correctWordObj.hint); // Log the clue for debugging
 
     // Update the clue in the hint display
@@ -234,18 +228,10 @@ function initializeGame() {
 
 // Validate Input
 function validateInput(input) {
-    console.log("Validating input:", input);
-    if (!correctWord || correctWord.length === 0) {
-        console.error("Error: Correct word is not set.");
-        errorDisplay.textContent = "Game initialization error. Please reload.";
-        return false;
-    }
-
     if (input.length !== correctWord.length) {
         errorDisplay.textContent = `Please enter a ${correctWord.length}-letter word!`;
         return false;
     }
-
     errorDisplay.textContent = ""; // Clear the error message if input is valid
     return true;
 }
@@ -334,4 +320,3 @@ guessButton.addEventListener("click", () => {
 
 // Start the Game
 initializeGame();
-    
