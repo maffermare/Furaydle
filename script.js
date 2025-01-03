@@ -206,7 +206,7 @@ function initializeGame() {
     console.log("initializeGame called"); // Log when the function is invoked
 
     // Fetch the daily word
-    const dailyWord = getDailyWord(); 
+    const dailyWord = getDailyWord();
     if (!dailyWord || !dailyWord.word || !dailyWord.hint) {
         console.error("Error fetching the daily word:", dailyWord);
         errorDisplay.textContent = "Error initializing the game. Please reload.";
@@ -222,17 +222,17 @@ function initializeGame() {
         hint: correctWordObj.hint
     });
 
-    // Update the clue in the hint display
-    hintDisplay.textContent = `Clue: ${correctWordObj.hint}`; // Ensure the clue is displayed
+    // Display the clue
+    hintDisplay.textContent = `Clue: ${correctWordObj.hint}`;
 
     // Reset input and UI elements
     wordInput.maxLength = correctWord.length;
     wordInput.placeholder = `Enter ${correctWord.length} letters`;
     wordInput.value = ""; // Clear input field
 
-    // Clear error display and reset attempts
-    errorDisplay.textContent = ""; // Clear any previous messages
-    errorDisplay.style.color = "red"; // Reset message color
+    // Reset error display and attempts
+    errorDisplay.textContent = "";
+    errorDisplay.style.color = "red";
     attempts = 0;
 
     // Clear previous guesses
@@ -242,20 +242,20 @@ function initializeGame() {
     wordInput.disabled = false;
     guessButton.disabled = false;
 
-    // Debugging: Log the word and hint to verify randomness
+    // Debugging Logs
     console.log(`Game initialized with word: ${correctWord}, hint: ${correctWordObj.hint}`);
 }
 
-// Debugging Code: Simulate two dates to test randomness
-const debugDate1 = "2024-12-01"; // Simulate December 1, 2024
-const debugDate2 = "2024-12-02"; // Simulate December 2, 2024
+// Debugging Mode: Simulate two dates for testing randomness
+const debugDate1 = "2024-12-01"; // Example date 1
+const debugDate2 = "2024-12-02"; // Example date 2
 const simulatedWord1 = getDailyWord(debugDate1);
 const simulatedWord2 = getDailyWord(debugDate2);
 
 console.log(`Simulated Word for ${debugDate1}:`, simulatedWord1);
 console.log(`Simulated Word for ${debugDate2}:`, simulatedWord2);
 
-// Event Listeners
+// Event Listeners for Input Handling
 wordInput.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
         checkWord();
@@ -267,4 +267,6 @@ guessButton.addEventListener("click", () => {
 });
 
 // Start the Game
+initializeGame();
+
 initializeGame();
