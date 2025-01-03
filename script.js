@@ -160,6 +160,7 @@ const wordList = [
 
     // Furay Loyalty, Loves and Honorary Furays (challenge category)
     { word: "DUTCH", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
+    { word: "vegan", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
     { word: "Irish", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
     { word: "books", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
     { word: "shows", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
