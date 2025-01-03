@@ -296,7 +296,6 @@ function checkWord() {
             correctWordArr[i] = null; // Prevent double-counting
             guessedWordArr[i] = null;
         }
-    }
 
     // Check for correct letters in wrong positions (yellow)
     for (let i = 0; i < correctWord.length; i++) {
@@ -330,14 +329,16 @@ function checkWord() {
     }
 }
 
-// Debugging Mode: Simulate two dates for testing randomness
-const debugDate1 = "2024-12-01"; // Example date 1
-const debugDate2 = "2024-12-02"; // Example date 2
+// Debugging Mode: Simulate specific dates
+const debugDate1 = "2024-12-01";
+const debugDate2 = "2024-12-02";
+
 const simulatedWord1 = getDailyWord(debugDate1);
 const simulatedWord2 = getDailyWord(debugDate2);
 
-console.log(`Simulated Word for ${debugDate1}:`, simulatedWord1);
-console.log(`Simulated Word for ${debugDate2}:`, simulatedWord2);
+console.log(`Simulated Word for ${debugDate1}: Word: ${simulatedWord1.word}, Hint: ${simulatedWord1.hint}`);
+console.log(`Simulated Word for ${debugDate2}: Word: ${simulatedWord2.word}, Hint: ${simulatedWord2.hint}`);
+
 
 // Event Listeners for Input Handling
 wordInput.addEventListener("keydown", (event) => {
