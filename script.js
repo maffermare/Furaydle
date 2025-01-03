@@ -223,7 +223,7 @@ function initializeGame() {
     });
 
     // Update the clue in the hint display
-    hintDisplay.textContent = `Clue: ${correctWordObj.hint}`;
+    hintDisplay.textContent = `Clue: ${correctWordObj.hint}`; // Ensure the clue is displayed
 
     // Reset input and UI elements
     wordInput.maxLength = correctWord.length;
@@ -245,6 +245,15 @@ function initializeGame() {
     // Debugging: Log the word and hint to verify randomness
     console.log(`Game initialized with word: ${correctWord}, hint: ${correctWordObj.hint}`);
 }
+
+// Debugging Code: Simulate two dates to test randomness
+const debugDate1 = "2024-12-01"; // Simulate December 1, 2024
+const debugDate2 = "2024-12-02"; // Simulate December 2, 2024
+const simulatedWord1 = getDailyWord(debugDate1);
+const simulatedWord2 = getDailyWord(debugDate2);
+
+console.log(`Simulated Word for ${debugDate1}:`, simulatedWord1);
+console.log(`Simulated Word for ${debugDate2}:`, simulatedWord2);
 
 // Event Listeners
 wordInput.addEventListener("keydown", (event) => {
