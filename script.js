@@ -201,7 +201,7 @@ function getDailyWord(dateOverride) {
     const index = hash % wordList.length; // Use hash to select a word from the word list
 
     console.log(`Date: ${cstDate}, Hash: ${hash}, Index: ${index}, Word: ${wordList[index].word}, Hint: ${wordList[index].hint}`);
-    return wordList[index];
+
 }
 
 // Helper Function: Get CST Date
