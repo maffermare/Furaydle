@@ -210,6 +210,7 @@ function getDailyWord() {
     const cstDate = getCSTDate();
     const hash = Array.from(cstDate).reduce((sum, char) => sum + char.charCodeAt(0), 0);
     return wordList[hash % wordList.length];
+    console.log(`Date: ${cstDate}, Hash: ${hash}, Index: ${index}`);
 }
 
 function initializeGame() {
