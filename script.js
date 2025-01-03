@@ -193,12 +193,21 @@ function getDailyWord() {
 function initializeGame() {
     console.log("initializeGame called"); // Log when the function is invoked
 
-    const dailyWord = getDailyWord(); // Fetch the daily word
-    if (!dailyWord || !dailyWord.word || !dailyWord.hint) {
-        console.error("Error fetching the daily word:", dailyWord);
-        errorDisplay.textContent = "Error initializing the game. Please reload.";
-        return;
-    }
+function getDailyWord() {
+    const cstDate = getCSTDate(); // Get the CST date string
+
+    // Use a more complex hash (e.g., hashCode) for better distribution
+    const hash = cstDate
+        .split("")
+        .reduce((hash, char) => {
+            const charCode = char.charCodeAt(0);
+            return (hash * 31 + charCode) % 2 ** 32; // Mimics a hashing mechanism
+        }, 0);
+
+    const shuffledWordList = [...wordList].sort(() => Math.random() - 0.5); // Shuffle wordList daily
+    const index = hash % shuffledWordList.length; // Use hash to select a word
+    return shuffledWordList[index];
+}
 
     correctWordObj = dailyWord;
     correctWord = correctWordObj.word.toUpperCase();
