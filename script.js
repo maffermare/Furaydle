@@ -223,12 +223,8 @@ function getCSTDate() {
 function initializeGame() {
     console.log("initializeGame called");
 
-    const dailyWord = getDailyWord();
-    if (!dailyWord || !dailyWord.word || !dailyWord.hint) {
-        console.error("Error fetching the daily word:", dailyWord);
-        errorDisplay.textContent = "Error initializing the game. Please reload.";
-        return;
-    }
+  const dailyWord = getDailyWord();
+console.log('Daily Word:', dailyWord);
 
     // Assign the correct word and its hint
     correctWordObj = dailyWord;
