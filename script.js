@@ -209,15 +209,19 @@ function getCSTDate() {
     const utcTime = now.getTime() + now.getTimezoneOffset() * 60000;
     const cstOffset = -6 * 60 * 60000;
     const cstTime = new Date(utcTime + cstOffset);
-    if (cstTime.getHours() < 5) cstTime.setDate(cstTime.getDate() - 1);
-    return cstTime.toISOString().split("T")[0];
+
+    // If before 5 AM CST, use the previous day
+    if (cstTime.getHours() < 5) {
+        cstTime.setDate(cstTime.getDate() - 1);
+    }
+    return cstTime.toISOString().split("T")[0]; // YYYY-MM-DD format
 }
 
 function getDailyWord() {
     const cstDate = getCSTDate();
     const hash = Array.from(cstDate).reduce((sum, char) => sum * 31 + char.charCodeAt(0), 7);
-    return wordList[hash % wordList.length];
-    console.log(`Date: ${cstDate}, Hash: ${hash}, Index: ${index}`);
+    const index = hash % wordList.length; // Index based on hash
+    return wordList[index]; // Always return the same word for the day
 }
 
 function initializeGame() {
