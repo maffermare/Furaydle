@@ -265,8 +265,6 @@ function initializeGame() {
     console.log(`Game initialized with word: ${correctWord}, hint: ${correctWordObj.hint}`);
 }
 
-
-
 // Validate Input
 function validateInput(input) {
     if (input.length !== correctWord.length) {
@@ -296,11 +294,11 @@ function checkWord() {
 
     // Check for correct letters in correct positions (green)
     for (let i = 0; i < correctWord.length; i++) {
-        if (guessedWordArr[i] === correctWordArr[i]) {
-            feedback[i] = "correct";
-            correctWordArr[i] = null; // Prevent double-counting
-            guessedWordArr[i] = null;
-        }
+     if (guessedWordArr[i] === correctWordArr[i]) {
+    feedback[i] = "correct";
+    correctWordArr[i] = null; // Prevent double-counting
+    guessedWordArr[i] = null;
+}
 
     // Check for correct letters in wrong positions (yellow)
     for (let i = 0; i < correctWord.length; i++) {
