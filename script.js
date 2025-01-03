@@ -193,6 +193,7 @@ const wordList = [
     { word: "target", hint: "Furay Occupations" },
     { word: "encore", hint: "Furay Occupations" },
     { word: "sxflgs", hint: "Furay Occupations" },
+    { word: "cruise", hint: "Furay Occupations" },
     { word: "WGPL", hint: "Furay Occupations" },
     { word: "flytwa", hint: "Furay Occupations" },
     { word: "usbank", hint: "Furay Occupations" },
