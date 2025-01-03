@@ -157,6 +157,7 @@ const wordList = [
     { word: "jerome", hint: "Furay Locations and Places" },
     { word: "aksrbn", hint: "Furay Locations and Places" },
     { word: "dupont", hint: "Furay Locations and Places" },
+    { word: "chicago", hint: "Furay Locations and Places" },
 
     // Furay Loyalty, Loves and Honorary Furays (challenge category)
     { word: "DUTCH", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
@@ -174,6 +175,10 @@ const wordList = [
     { word: "AnneB", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
     { word: "PhilH", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
     { word: "JimB", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
+    { word: "Brian", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
+    { word: "Molner", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
+    { word: "KatieK", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
+    { word: "JeffE", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
 
     // Furay Occupations and Jobs
     { word: "Teach", hint: "Furay Occupations" },
