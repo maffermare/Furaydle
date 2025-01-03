@@ -194,10 +194,33 @@ let correctWord = "";
 const maxAttempts = 6;
 let attempts = 0;
 
-function initializeGame() {
-    console.log("initializeGame called"); // Log when the function is invoked
+// Function to Get Daily Word
+function getDailyWord(dateOverride) {
+    const cstDate = dateOverride || getCSTDate(); // Use override date if provided
+    const hash = Array.from(cstDate).reduce((sum, char) => sum + char.charCodeAt(0), 0); // Simple hash
+    const index = hash % wordList.length; // Use hash to select a word from the word list
+    return wordList[index];
+}
 
-    // Fetch the daily word
+// Helper Function: Get CST Date
+function getCSTDate() {
+    const now = new Date();
+    const utcTime = now.getTime() + now.getTimezoneOffset() * 60000; // Convert to UTC
+    const cstOffset = -6 * 60 * 60000; // CST offset: UTC-6
+    const cstTime = new Date(utcTime + cstOffset);
+
+    // Check if the current time is before 5 AM CST and adjust the date if necessary
+    if (cstTime.getHours() < 5) {
+        cstTime.setDate(cstTime.getDate() - 1); // Use the previous day
+    }
+
+    return cstTime.toISOString().split("T")[0]; // Return YYYY-MM-DD
+}
+
+// Initialize Game
+function initializeGame() {
+    console.log("initializeGame called");
+
     const dailyWord = getDailyWord();
     if (!dailyWord || !dailyWord.word || !dailyWord.hint) {
         console.error("Error fetching the daily word:", dailyWord);
@@ -234,7 +257,6 @@ function initializeGame() {
     wordInput.disabled = false;
     guessButton.disabled = false;
 
-    // Debugging Logs
     console.log(`Game initialized with word: ${correctWord}, hint: ${correctWordObj.hint}`);
 }
 
