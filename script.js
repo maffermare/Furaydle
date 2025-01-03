@@ -162,7 +162,6 @@ const wordList = [
     { word: "rings", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
     { word: "PANDP", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
     { word: "toasty", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
-    { word: "vegan", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
     { word: "Skater", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
     { word: "mizzou", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
     { word: "justin", hint: "Furay Loyalty, Loves and Honorary Furays (challenge category)" },
