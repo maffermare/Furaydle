@@ -194,19 +194,18 @@ let correctWord = "";
 const maxAttempts = 6;
 let attempts = 0;
 
-// Helper Function: Get CST Date
-function getCSTDate() {
+function getCSTDate(debugDate) {
+    if (debugDate) {
+        return debugDate; // Use the provided debug date
+    }
     const now = new Date();
     const utcTime = now.getTime() + now.getTimezoneOffset() * 60000; // Convert to UTC
     const cstOffset = -6 * 60 * 60000; // CST offset: UTC-6
     const cstTime = new Date(utcTime + cstOffset);
-
-    // Check if the current time is before 5 AM CST and adjust the date if necessary
     if (cstTime.getHours() < 5) {
-        cstTime.setDate(cstTime.getDate() - 1); // Use the previous day
+        cstTime.setDate(cstTime.getDate() - 1);
     }
-
-    return cstTime.toISOString().split("T")[0]; // Return YYYY-MM-DD
+    return cstTime.toISOString().split("T")[0];
 }
 
 function getDailyWord() {
