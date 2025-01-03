@@ -186,6 +186,9 @@ function getDailyWord() {
     const cstDate = getCSTDate(); // Get the CST date string
     const hash = Array.from(cstDate).reduce((sum, char) => sum + char.charCodeAt(0), 0); // Simple hash
     const index = hash % wordList.length; // Use hash to select a word from the word list
+
+    console.log(`Date: ${cstDate}, Hash: ${hash}, Index: ${index}, Word: ${wordList[index].word}, Hint: ${wordList[index].hint}`);
+
     return wordList[index];
 }
 
