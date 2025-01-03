@@ -218,13 +218,17 @@ function getCSTDate() {
 
     return cstTime.toISOString().split("T")[0]; // Return YYYY-MM-DD
 }
-
-// Initialize Game
 function initializeGame() {
     console.log("initializeGame called");
 
-  const dailyWord = getDailyWord();
-console.log('Daily Word:', dailyWord);
+    const dailyWord = getDailyWord();
+    console.log('Fetched Daily Word:', dailyWord);
+
+    if (!dailyWord || !dailyWord.word || !dailyWord.hint) {
+        console.error("Error fetching the daily word:", dailyWord);
+        errorDisplay.textContent = "Error initializing the game. Please reload.";
+        return;
+    }
 
     // Assign the correct word and its hint
     correctWordObj = dailyWord;
@@ -237,11 +241,13 @@ console.log('Daily Word:', dailyWord);
 
     // Display the clue
     hintDisplay.textContent = `Clue: ${correctWordObj.hint}`;
+    console.log('Clue displayed:', hintDisplay.textContent);
 
     // Reset input and UI elements
     wordInput.maxLength = correctWord.length;
     wordInput.placeholder = `Enter ${correctWord.length} letters`;
     wordInput.value = ""; // Clear input field
+    console.log('Input placeholder set to:', wordInput.placeholder);
 
     // Reset error display and attempts
     errorDisplay.textContent = "";
@@ -251,12 +257,15 @@ console.log('Daily Word:', dailyWord);
     // Clear previous guesses
     guessGrid.innerHTML = "";
 
-    // Ensure input and button are enabled
+    // Enable inputs
     wordInput.disabled = false;
     guessButton.disabled = false;
+    console.log('Inputs enabled:', !wordInput.disabled && !guessButton.disabled);
 
     console.log(`Game initialized with word: ${correctWord}, hint: ${correctWordObj.hint}`);
 }
+
+
 
 // Validate Input
 function validateInput(input) {
