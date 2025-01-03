@@ -194,7 +194,6 @@ let correctWord = "";
 const maxAttempts = 6;
 let attempts = 0;
 
-// Function to Get Daily Word
 function getDailyWord(dateOverride) {
     const cstDate = dateOverride || getCSTDate(); // Use override date if provided
     const hash = Array.from(cstDate).reduce((sum, char) => sum + char.charCodeAt(0), 0); // Simple hash
@@ -202,6 +201,7 @@ function getDailyWord(dateOverride) {
 
     console.log(`Date: ${cstDate}, Hash: ${hash}, Index: ${index}, Word: ${wordList[index].word}, Hint: ${wordList[index].hint}`);
 
+    return wordList[index]; // Return the selected word object
 }
 
 // Helper Function: Get CST Date
