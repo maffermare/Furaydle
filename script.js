@@ -1,8 +1,12 @@
 const guessGrid = document.getElementById("guess-grid");
 const hintDisplay = document.getElementById("hint-display");
 const wordInput = document.getElementById("word-input");
-const guessButton = document.getElementById("guess-button");
-const errorDisplay = document.getElementById("error-message");
+const guessButton = document.querySelector("button");
+const errorDisplay = document.createElement("div");
+errorDisplay.style.color = "red";
+errorDisplay.style.marginTop = "10px";
+errorDisplay.style.fontSize = "0.9em";
+document.getElementById("word-input-section").appendChild(errorDisplay);
 
 // Full Word List with Categories and Hints
 const wordList = [
@@ -188,119 +192,74 @@ const wordList = [
     { word: "macys", hint: "Furay Occupations" }
 ];
 
-// Game Variables
 let correctWordObj = {};
 let correctWord = "";
 const maxAttempts = 6;
 let attempts = 0;
 
-function getDailyWord(dateOverride) {
-    const cstDate = dateOverride || getCSTDate(); // Use override date if provided
-    const hash = Array.from(cstDate).reduce((sum, char) => sum + char.charCodeAt(0), 0); // Simple hash
-    const index = hash % wordList.length; // Use hash to select a word from the word list
-
-    console.log(`Date: ${cstDate}, Hash: ${hash}, Index: ${index}, Word: ${wordList[index].word}, Hint: ${wordList[index].hint}`);
-
-    return wordList[index]; // Return the selected word object
-}
-
-// Helper Function: Get CST Date
 function getCSTDate() {
     const now = new Date();
-    const utcTime = now.getTime() + now.getTimezoneOffset() * 60000; // Convert to UTC
-    const cstOffset = -6 * 60 * 60000; // CST offset: UTC-6
+    const utcTime = now.getTime() + now.getTimezoneOffset() * 60000;
+    const cstOffset = -6 * 60 * 60000;
     const cstTime = new Date(utcTime + cstOffset);
-
-    // Check if the current time is before 5 AM CST and adjust the date if necessary
-    if (cstTime.getHours() < 5) {
-        cstTime.setDate(cstTime.getDate() - 1); // Use the previous day
-    }
-
-    return cstTime.toISOString().split("T")[0]; // Return YYYY-MM-DD
+    if (cstTime.getHours() < 5) cstTime.setDate(cstTime.getDate() - 1);
+    return cstTime.toISOString().split("T")[0];
 }
+
+function getDailyWord() {
+    const cstDate = getCSTDate();
+    const hash = Array.from(cstDate).reduce((sum, char) => sum + char.charCodeAt(0), 0);
+    return wordList[hash % wordList.length];
+}
+
 function initializeGame() {
-    console.log("initializeGame called");
-
-    const dailyWord = getDailyWord();
-    console.log('Fetched Daily Word:', dailyWord);
-
-    if (!dailyWord || !dailyWord.word || !dailyWord.hint) {
-        console.error("Error fetching the daily word:", dailyWord);
-        errorDisplay.textContent = "Error initializing the game. Please reload.";
-        return;
-    }
-
-    // Assign the correct word and its hint
-    correctWordObj = dailyWord;
+    correctWordObj = getDailyWord();
     correctWord = correctWordObj.word.toUpperCase();
-
-    console.log("Daily Word Details:", {
-        word: correctWordObj.word,
-        hint: correctWordObj.hint
-    });
-
-    // Display the clue
     hintDisplay.textContent = `Clue: ${correctWordObj.hint}`;
-    console.log('Clue displayed:', hintDisplay.textContent);
-
-    // Reset input and UI elements
     wordInput.maxLength = correctWord.length;
     wordInput.placeholder = `Enter ${correctWord.length} letters`;
-    wordInput.value = ""; // Clear input field
-    console.log('Input placeholder set to:', wordInput.placeholder);
-
-    // Reset error display and attempts
+    wordInput.value = "";
     errorDisplay.textContent = "";
-    errorDisplay.style.color = "red";
     attempts = 0;
-
-    // Clear previous guesses
     guessGrid.innerHTML = "";
-
-    // Enable inputs
     wordInput.disabled = false;
     guessButton.disabled = false;
-    console.log('Inputs enabled:', !wordInput.disabled && !guessButton.disabled);
-
-    console.log(`Game initialized with word: ${correctWord}, hint: ${correctWordObj.hint}`);
 }
 
-// Validate Input
 function validateInput(input) {
     if (input.length !== correctWord.length) {
         errorDisplay.textContent = `Please enter a ${correctWord.length}-letter word!`;
         return false;
     }
-    errorDisplay.textContent = ""; // Clear the error message if input is valid
+    errorDisplay.textContent = "";
     return true;
 }
 
-// Check Word
 function checkWord() {
-    console.log("checkWord called");
+    if (attempts >= maxAttempts) return;
+
     const guessedWord = wordInput.value.toUpperCase().trim();
 
     if (!validateInput(guessedWord)) return;
 
     attempts++;
-    wordInput.value = ""; // Clear input
+    wordInput.value = "";
 
     const guessRow = document.createElement("div");
     guessRow.classList.add("guess-row");
 
-    const feedback = new Array(correctWord.length).fill("absent");
     const correctWordArr = correctWord.split("");
     const guessedWordArr = guessedWord.split("");
+    const feedback = new Array(correctWord.length).fill("absent");
 
-    // Check for correct letters in correct positions (green)
     for (let i = 0; i < correctWord.length; i++) {
-     if (guessedWordArr[i] === correctWordArr[i]) {
-    feedback[i] = "correct";
-    correctWordArr[i] = null; // Prevent double-counting
-    guessedWordArr[i] = null;
-}
+        if (guessedWordArr[i] === correctWordArr[i]) {
+            feedback[i] = "correct";
+            correctWordArr[i] = null;
+            guessedWordArr[i] = null;
+        }
+    }
 
-    // Check for correct letters in wrong positions (yellow)
     for (let i = 0; i < correctWord.length; i++) {
         if (guessedWordArr[i] && correctWordArr.includes(guessedWordArr[i])) {
             feedback[i] = "present";
@@ -308,7 +267,6 @@ function checkWord() {
         }
     }
 
-    // Display feedback
     for (let i = 0; i < guessedWord.length; i++) {
         const letterBox = document.createElement("div");
         letterBox.textContent = guessedWord[i];
@@ -318,7 +276,6 @@ function checkWord() {
 
     guessGrid.appendChild(guessRow);
 
-    // Win or Lose Check
     if (guessedWord === correctWord) {
         wordInput.disabled = true;
         guessButton.disabled = true;
@@ -332,27 +289,11 @@ function checkWord() {
     }
 }
 
-// Debugging Mode: Simulate specific dates
-const debugDate1 = "2024-12-01";
-const debugDate2 = "2024-12-02";
-
-const simulatedWord1 = getDailyWord(debugDate1);
-const simulatedWord2 = getDailyWord(debugDate2);
-
-console.log(`Simulated Word for ${debugDate1}: Word: ${simulatedWord1.word}, Hint: ${simulatedWord1.hint}`);
-console.log(`Simulated Word for ${debugDate2}: Word: ${simulatedWord2.word}, Hint: ${simulatedWord2.hint}`);
-
-
-// Event Listeners for Input Handling
 wordInput.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-        checkWord();
-    }
+    if (event.key === "Enter") checkWord();
 });
 
-guessButton.addEventListener("click", () => {
-    checkWord();
-});
+guessButton.addEventListener("click", () => checkWord());
 
-// Start the Game
 initializeGame();
+// Start the Game
