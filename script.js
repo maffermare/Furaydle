@@ -199,6 +199,8 @@ function getDailyWord(dateOverride) {
     const cstDate = dateOverride || getCSTDate(); // Use override date if provided
     const hash = Array.from(cstDate).reduce((sum, char) => sum + char.charCodeAt(0), 0); // Simple hash
     const index = hash % wordList.length; // Use hash to select a word from the word list
+
+    console.log(`Date: ${cstDate}, Hash: ${hash}, Index: ${index}, Word: ${wordList[index].word}, Hint: ${wordList[index].hint}`);
     return wordList[index];
 }
 
@@ -258,6 +260,74 @@ function initializeGame() {
     guessButton.disabled = false;
 
     console.log(`Game initialized with word: ${correctWord}, hint: ${correctWordObj.hint}`);
+}
+
+// Validate Input
+function validateInput(input) {
+    if (input.length !== correctWord.length) {
+        errorDisplay.textContent = `Please enter a ${correctWord.length}-letter word!`;
+        return false;
+    }
+    errorDisplay.textContent = ""; // Clear the error message if input is valid
+    return true;
+}
+
+// Check Word
+function checkWord() {
+    console.log("checkWord called");
+    const guessedWord = wordInput.value.toUpperCase().trim();
+
+    if (!validateInput(guessedWord)) return;
+
+    attempts++;
+    wordInput.value = ""; // Clear input
+
+    const guessRow = document.createElement("div");
+    guessRow.classList.add("guess-row");
+
+    const feedback = new Array(correctWord.length).fill("absent");
+    const correctWordArr = correctWord.split("");
+    const guessedWordArr = guessedWord.split("");
+
+    // Check for correct letters in correct positions (green)
+    for (let i = 0; i < correctWord.length; i++) {
+        if (guessedWordArr[i] === correctWordArr[i]) {
+            feedback[i] = "correct";
+            correctWordArr[i] = null; // Prevent double-counting
+            guessedWordArr[i] = null;
+        }
+    }
+
+    // Check for correct letters in wrong positions (yellow)
+    for (let i = 0; i < correctWord.length; i++) {
+        if (guessedWordArr[i] && correctWordArr.includes(guessedWordArr[i])) {
+            feedback[i] = "present";
+            correctWordArr[correctWordArr.indexOf(guessedWordArr[i])] = null;
+        }
+    }
+
+    // Display feedback
+    for (let i = 0; i < guessedWord.length; i++) {
+        const letterBox = document.createElement("div");
+        letterBox.textContent = guessedWord[i];
+        letterBox.classList.add(feedback[i]);
+        guessRow.appendChild(letterBox);
+    }
+
+    guessGrid.appendChild(guessRow);
+
+    // Win or Lose Check
+    if (guessedWord === correctWord) {
+        wordInput.disabled = true;
+        guessButton.disabled = true;
+        errorDisplay.style.color = "green";
+        errorDisplay.textContent = "Congratulations! You guessed the word!";
+    } else if (attempts >= maxAttempts) {
+        wordInput.disabled = true;
+        guessButton.disabled = true;
+        errorDisplay.style.color = "red";
+        errorDisplay.textContent = `Game Over! The correct word was: ${correctWord}`;
+    }
 }
 
 // Debugging Mode: Simulate two dates for testing randomness
