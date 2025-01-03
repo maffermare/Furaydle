@@ -219,6 +219,7 @@ function getDailyWord() {
     return wordList[index];
 }
 
+
 // Initialize Game
 function initializeGame() {
     console.log("initializeGame called"); // Log when the function is invoked
