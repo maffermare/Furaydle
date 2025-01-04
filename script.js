@@ -80,27 +80,6 @@ const wordList = [
     { word: "Mies", hint: "Family" },
     { word: "stnick", hint: "Family" },
 
-    // Furay Pets
-    { word: "scout", hint: "Furay Pets" },
-    { word: "boozy", hint: "Furay Pets" },
-    { word: "Fitz", hint: "Furay Pets" },
-    { word: "Rohan", hint: "Furay Pets" },
-    { word: "LCDB", hint: "Furay Pets" },
-    { word: "MissK", hint: "Furay Pets" },
-    { word: "Penny", hint: "Furay Pets" },
-    { word: "Maggie", hint: "Furay Pets" },
-    { word: "vicky", hint: "Furay Pets" },
-    { word: "Spike", hint: "Furay Pets" },
-    { word: "Darcy", hint: "Furay Pets" },
-    { word: "Marion", hint: "Furay Pets" },
-    { word: "Pippin", hint: "Furay Pets" },
-    { word: "Sammy", hint: "Furay Pets" },
-    { word: "Luna", hint: "Furay Pets" },
-    { word: "dixie", hint: "Furay Pets" },
-    { word: "nugget", hint: "Furay Pets" },
-    { word: "covid", hint: "furay Pets"},
-    { word: "kitty", hint: "furay Pets"}, 
-
     // Furay Movies, Books, and Music (Furay psyche 'challenge' category)
     { word: "SBFSB", hint: "Furay Movies, Books, and Music (Furay psyche 'challenge' category)" },
     { word: "MMISL", hint: "Furay Movies, Books, and Music (Furay psyche 'challenge' category)" },
